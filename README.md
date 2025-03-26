@@ -6,7 +6,7 @@
 pnpm install
 
 # 프론트엔드 의존성 추가
-pnpm -w --filter frontend add axios
+pnpm -w --filter frontend add <라이브러리명>
 
 # 전체 개발 서버 실행
 pnpm -w dev
@@ -32,7 +32,7 @@ pnpm dev
 pnpm build
 
 # 의존성 추가 (frontend에만)
-pnpm add axios
+pnpm add <라이브러리명>
 ```
 
 ### backend 디렉토리에서 실행
