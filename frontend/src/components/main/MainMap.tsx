@@ -1,11 +1,10 @@
-import { useState, useRef } from "react";
-import { defaultLocation, useGeoLocation } from "@/hooks/useGeoLocation";
+import { useRef } from "react";
+import { useGeoLocation } from "@/hooks/useGeoLocation";
 import {
   Map as KakaoMap,
   MapMarker,
   useKakaoLoader,
 } from "react-kakao-maps-sdk";
-import { Modal } from "@/components/main/Modal";
 
 const geolocationOptions = {
   enableHighAccuracy: false,
@@ -14,9 +13,7 @@ const geolocationOptions = {
 };
 
 export const MainMap = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const mapContainerRef = useRef<HTMLDivElement>(null);
-  const [selectedLocation, setSelectedLocation] = useState(defaultLocation);
 
   useKakaoLoader({
     appkey: import.meta.env.VITE_KAKAOMAP_KEY,
@@ -25,8 +22,7 @@ export const MainMap = () => {
   const { location } = useGeoLocation(geolocationOptions);
 
   const handleMarkerClick = () => {
-    setSelectedLocation(location);
-    setIsModalOpen(true);
+    console.log('zz')
   };
 
   return (
@@ -53,11 +49,6 @@ export const MainMap = () => {
           />
         </KakaoMap>
 
-        <Modal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          location={selectedLocation}
-        />
       </div>
     </div>
   );
