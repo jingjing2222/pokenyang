@@ -1,0 +1,15 @@
+{
+  "name": "pokenyang",
+  "private": true,
+  "scripts": {
+    "dev:frontend": "pnpm --filter frontend dev",
+    "build:frontend": "pnpm --filter frontend build",
+    "dev:backend": "./gradlew :backend:bootRun",
+    "build:backend": "./gradlew :backend:build",
+    "dev": "concurrently \"pnpm dev:frontend\" \"pnpm dev:backend\"",
+    "build": "pnpm build:frontend && pnpm build:backend"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.0"
+  }
+}
