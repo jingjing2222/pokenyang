@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react'
 
-interface ILocation {
+export interface ILocation {
   latitude: number
   longitude: number
 }
 
+export const defaultLocation: ILocation = {
+  latitude: 37.5665,
+  longitude: 126.9780
+}
 
 export const useGeoLocation = (options = {}) => {
-  const [location, setLocation] = useState<ILocation>()
+  const [location, setLocation] = useState<ILocation>(defaultLocation)
   const [error, setError] = useState('')
 
   const handleSuccess = (pos: GeolocationPosition) => {
