@@ -13,8 +13,11 @@ pnpm -w dev
 # 또는
 pnpm -w start
 
-# 전체 빌드
+# 전체 빌드 (테스트 제외)
 pnpm -w build
+
+# 백엔드 테스트만 실행
+pnpm -w test:backend
 ```
 
 ### 개별 디렉토리에서 실행 (프로젝트별)
@@ -40,6 +43,9 @@ cd backend
 # Spring Boot 서버 실행
 ./gradlew bootRun
 
-# 빌드
-./gradlew build
+# 빌드 (테스트 제외)
+./gradlew build -x test
+
+# 테스트만 실행
+./gradlew test
 ```
