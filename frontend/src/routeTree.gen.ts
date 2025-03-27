@@ -13,9 +13,9 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as HomeIndexImport } from './routes/home/index'
-import { Route as BookmarkIndexImport } from './routes/bookmark/index'
 import { Route as MypageUserIdImport } from './routes/mypage/$userId'
 import { Route as HomePostIdImport } from './routes/home/$postId'
+import { Route as BookmarkUserIdImport } from './routes/bookmark/$userId'
 import { Route as MypageUserIdIndexImport } from './routes/mypage/$userId/index'
 import { Route as HomeUploadpostIndexImport } from './routes/home/uploadpost/index'
 import { Route as MypageUserIdEditImport } from './routes/mypage/$userId/edit'
@@ -36,12 +36,6 @@ const HomeIndexRoute = HomeIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const BookmarkIndexRoute = BookmarkIndexImport.update({
-  id: '/bookmark/',
-  path: '/bookmark/',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const MypageUserIdRoute = MypageUserIdImport.update({
   id: '/mypage/$userId',
   path: '/mypage/$userId',
@@ -51,6 +45,12 @@ const MypageUserIdRoute = MypageUserIdImport.update({
 const HomePostIdRoute = HomePostIdImport.update({
   id: '/home/$postId',
   path: '/home/$postId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const BookmarkUserIdRoute = BookmarkUserIdImport.update({
+  id: '/bookmark/$userId',
+  path: '/bookmark/$userId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -95,6 +95,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/bookmark/$userId': {
+      id: '/bookmark/$userId'
+      path: '/bookmark/$userId'
+      fullPath: '/bookmark/$userId'
+      preLoaderRoute: typeof BookmarkUserIdImport
+      parentRoute: typeof rootRoute
+    }
     '/home/$postId': {
       id: '/home/$postId'
       path: '/home/$postId'
@@ -107,13 +114,6 @@ declare module '@tanstack/react-router' {
       path: '/mypage/$userId'
       fullPath: '/mypage/$userId'
       preLoaderRoute: typeof MypageUserIdImport
-      parentRoute: typeof rootRoute
-    }
-    '/bookmark/': {
-      id: '/bookmark/'
-      path: '/bookmark'
-      fullPath: '/bookmark'
-      preLoaderRoute: typeof BookmarkIndexImport
       parentRoute: typeof rootRoute
     }
     '/home/': {
@@ -193,9 +193,9 @@ const MypageUserIdRouteWithChildren = MypageUserIdRoute._addFileChildren(
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/bookmark/$userId': typeof BookmarkUserIdRoute
   '/home/$postId': typeof HomePostIdRouteWithChildren
   '/mypage/$userId': typeof MypageUserIdRouteWithChildren
-  '/bookmark': typeof BookmarkIndexRoute
   '/home': typeof HomeIndexRoute
   '/home/$postId/comment': typeof HomePostIdCommentRoute
   '/mypage/$userId/activity': typeof MypageUserIdActivityRoute
@@ -206,8 +206,8 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/bookmark/$userId': typeof BookmarkUserIdRoute
   '/home/$postId': typeof HomePostIdRouteWithChildren
-  '/bookmark': typeof BookmarkIndexRoute
   '/home': typeof HomeIndexRoute
   '/home/$postId/comment': typeof HomePostIdCommentRoute
   '/mypage/$userId/activity': typeof MypageUserIdActivityRoute
@@ -219,9 +219,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/bookmark/$userId': typeof BookmarkUserIdRoute
   '/home/$postId': typeof HomePostIdRouteWithChildren
   '/mypage/$userId': typeof MypageUserIdRouteWithChildren
-  '/bookmark/': typeof BookmarkIndexRoute
   '/home/': typeof HomeIndexRoute
   '/home/$postId/comment': typeof HomePostIdCommentRoute
   '/mypage/$userId/activity': typeof MypageUserIdActivityRoute
@@ -234,9 +234,9 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/bookmark/$userId'
     | '/home/$postId'
     | '/mypage/$userId'
-    | '/bookmark'
     | '/home'
     | '/home/$postId/comment'
     | '/mypage/$userId/activity'
@@ -246,8 +246,8 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/bookmark/$userId'
     | '/home/$postId'
-    | '/bookmark'
     | '/home'
     | '/home/$postId/comment'
     | '/mypage/$userId/activity'
@@ -257,9 +257,9 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/bookmark/$userId'
     | '/home/$postId'
     | '/mypage/$userId'
-    | '/bookmark/'
     | '/home/'
     | '/home/$postId/comment'
     | '/mypage/$userId/activity'
@@ -271,18 +271,18 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BookmarkUserIdRoute: typeof BookmarkUserIdRoute
   HomePostIdRoute: typeof HomePostIdRouteWithChildren
   MypageUserIdRoute: typeof MypageUserIdRouteWithChildren
-  BookmarkIndexRoute: typeof BookmarkIndexRoute
   HomeIndexRoute: typeof HomeIndexRoute
   HomeUploadpostIndexRoute: typeof HomeUploadpostIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BookmarkUserIdRoute: BookmarkUserIdRoute,
   HomePostIdRoute: HomePostIdRouteWithChildren,
   MypageUserIdRoute: MypageUserIdRouteWithChildren,
-  BookmarkIndexRoute: BookmarkIndexRoute,
   HomeIndexRoute: HomeIndexRoute,
   HomeUploadpostIndexRoute: HomeUploadpostIndexRoute,
 }
@@ -298,15 +298,18 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/bookmark/$userId",
         "/home/$postId",
         "/mypage/$userId",
-        "/bookmark/",
         "/home/",
         "/home/uploadpost/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/bookmark/$userId": {
+      "filePath": "bookmark/$userId.tsx"
     },
     "/home/$postId": {
       "filePath": "home/$postId.tsx",
@@ -321,9 +324,6 @@ export const routeTree = rootRoute
         "/mypage/$userId/edit",
         "/mypage/$userId/"
       ]
-    },
-    "/bookmark/": {
-      "filePath": "bookmark/index.tsx"
     },
     "/home/": {
       "filePath": "home/index.tsx"

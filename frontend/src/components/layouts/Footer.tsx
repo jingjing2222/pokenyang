@@ -20,8 +20,8 @@ export const Footer = () => {
   }, []);
 
   const handleLink = (link: string) => {
-    if (link === 'mypage' && userData) {
-      navigate({ to: `/mypage/${userData.userId}` })
+    if ((link === 'mypage' || link === 'bookmark') && userData) {
+      navigate({ to: `/${link}/${userData.userId}` })
     } else {
       navigate({ to: `/${link}` })
     }

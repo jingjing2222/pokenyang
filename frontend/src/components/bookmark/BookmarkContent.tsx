@@ -1,21 +1,23 @@
-import type { TabContentProps } from "@/components/mypage/myactivity/MyActivityForm";
 import { postMockData, type PostMockData } from "@/mocks/mockData";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
-const PostTabContent = ({ userId }: TabContentProps) => {
-  const [userPosts, setUserPosts] = useState<PostMockData[]>([]);
-  const navigate = useNavigate()
+interface BookmarkContentProps {
+  userId: string;
+}
+
+const BookmarkContent = ({ userId }: BookmarkContentProps) => {
+  const [bookmarkedPosts, setBookmarkedPosts] = useState<PostMockData[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const filteredPosts = postMockData.filter(post => post.author === userId);
-    setUserPosts(filteredPosts);
+    setBookmarkedPosts(postMockData);
   }, [userId]);
 
-  if (userPosts.length === 0) {
+  if (bookmarkedPosts.length === 0) {
     return (
       <div className="min-h-[400px] flex flex-col items-center justify-center">
-        <p className="text-[#919295]">작성한 게시물이 없습니다.</p>
+        <p className="text-[#919295]">북마크한 게시물이 없습니다.</p>
       </div>
     );
   }
@@ -23,7 +25,7 @@ const PostTabContent = ({ userId }: TabContentProps) => {
   return (
     <div className="min-h-[400px]">
       <div className="flex flex-col gap-4">
-        {userPosts.map(post => (
+        {bookmarkedPosts.map(post => (
           <div
             onClick={() => { navigate({ to: `/home/${post.post_id}` }) }}
             key={post.post_id} className="border border-[#D9D9D9] rounded-lg overflow-hidden shadow-sm cursor-pointer">
@@ -45,24 +47,14 @@ const PostTabContent = ({ userId }: TabContentProps) => {
                   <p className="text-[#444444]">{post.content}</p>
                 </div>
 
-                {/* 버튼 영역 */}
+                {/* 버튼 영역 - 북마크에서는 북마크 해제 버튼만 표시 */}
                 <div className="flex justify-end gap-2 mt-2">
                   <button
-                    className="text-[#F291D0] border border-[#D9D9D9] rounded-lg px-4 py-1 text-sm "
+                    className="text-[#F291D0] border border-[#D9D9D9] rounded-lg px-2 py-1 text-sm cursor-pointer"
                     onClick={(e) => {
                       e.preventDefault()
                       e.stopPropagation()
-                      console.log('수정', post.post_id)
-                    }}
-                  >
-                    수정
-                  </button>
-                  <button
-                    className="text-[#F291D0] border border-[#D9D9D9] rounded-lg px-4 py-1 text-sm cursor-pointer"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      e.stopPropagation()
-                      console.log('삭제', post.post_id)
+                      console.log('북마크 해제', post.post_id)
                     }}
                   >
                     삭제
@@ -77,4 +69,4 @@ const PostTabContent = ({ userId }: TabContentProps) => {
   );
 };
 
-export default PostTabContent;
+export default BookmarkContent;
