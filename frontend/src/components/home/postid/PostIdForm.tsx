@@ -9,6 +9,9 @@ export const PostIdForm = () => {
   const handleCancle = () => {
     navigate({ to: '/home' })
   }
+  const handleComment = () => {
+    navigate({ to: '/home/comment' })
+  }
 
   if (!post) {
     return <div>게시물을 찾을 수 없습니다.</div>;
@@ -53,13 +56,14 @@ export const PostIdForm = () => {
 
     {/* 좋댓구알 */}
     <div className="p-4 flex flex-grow border-[#D9D9D9] border-b pb-6 justify-between">
-      <div className="flex gap-2 items-center">
-        <img src="/images/heart.svg" />
-        <img src="/images/comment.svg" />
-        <img src="/images/share.svg" />
+      <div className="flex gap-4 items-center">
+        <img className="cursor-pointer" src="/images/heart.svg" />
+        <img onClick={handleComment}
+          className="cursor-pointer" src="/images/comment.svg" />
+        <img className="cursor-pointer" src="/images/share.svg" />
       </div>
       <div>
-        <img src="/images/bookmark.svg" />
+        <img className="cursor-pointer" src="/images/bookmark.svg" />
       </div>
     </div>
 

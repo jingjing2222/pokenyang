@@ -17,6 +17,7 @@ import { Route as HomeIndexImport } from './routes/home/index'
 import { Route as HalloffameIndexImport } from './routes/halloffame/index'
 import { Route as HomePostIdImport } from './routes/home/$postId'
 import { Route as HomeUploadpostIndexImport } from './routes/home/uploadpost/index'
+import { Route as HomeCommentIndexImport } from './routes/home/comment/index'
 
 // Create/Update Routes
 
@@ -53,6 +54,12 @@ const HomePostIdRoute = HomePostIdImport.update({
 const HomeUploadpostIndexRoute = HomeUploadpostIndexImport.update({
   id: '/home/uploadpost/',
   path: '/home/uploadpost/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const HomeCommentIndexRoute = HomeCommentIndexImport.update({
+  id: '/home/comment/',
+  path: '/home/comment/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -95,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MypageIndexImport
       parentRoute: typeof rootRoute
     }
+    '/home/comment/': {
+      id: '/home/comment/'
+      path: '/home/comment'
+      fullPath: '/home/comment'
+      preLoaderRoute: typeof HomeCommentIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/home/uploadpost/': {
       id: '/home/uploadpost/'
       path: '/home/uploadpost'
@@ -113,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/halloffame': typeof HalloffameIndexRoute
   '/home': typeof HomeIndexRoute
   '/mypage': typeof MypageIndexRoute
+  '/home/comment': typeof HomeCommentIndexRoute
   '/home/uploadpost': typeof HomeUploadpostIndexRoute
 }
 
@@ -122,6 +137,7 @@ export interface FileRoutesByTo {
   '/halloffame': typeof HalloffameIndexRoute
   '/home': typeof HomeIndexRoute
   '/mypage': typeof MypageIndexRoute
+  '/home/comment': typeof HomeCommentIndexRoute
   '/home/uploadpost': typeof HomeUploadpostIndexRoute
 }
 
@@ -132,6 +148,7 @@ export interface FileRoutesById {
   '/halloffame/': typeof HalloffameIndexRoute
   '/home/': typeof HomeIndexRoute
   '/mypage/': typeof MypageIndexRoute
+  '/home/comment/': typeof HomeCommentIndexRoute
   '/home/uploadpost/': typeof HomeUploadpostIndexRoute
 }
 
@@ -143,6 +160,7 @@ export interface FileRouteTypes {
     | '/halloffame'
     | '/home'
     | '/mypage'
+    | '/home/comment'
     | '/home/uploadpost'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -151,6 +169,7 @@ export interface FileRouteTypes {
     | '/halloffame'
     | '/home'
     | '/mypage'
+    | '/home/comment'
     | '/home/uploadpost'
   id:
     | '__root__'
@@ -159,6 +178,7 @@ export interface FileRouteTypes {
     | '/halloffame/'
     | '/home/'
     | '/mypage/'
+    | '/home/comment/'
     | '/home/uploadpost/'
   fileRoutesById: FileRoutesById
 }
@@ -169,6 +189,7 @@ export interface RootRouteChildren {
   HalloffameIndexRoute: typeof HalloffameIndexRoute
   HomeIndexRoute: typeof HomeIndexRoute
   MypageIndexRoute: typeof MypageIndexRoute
+  HomeCommentIndexRoute: typeof HomeCommentIndexRoute
   HomeUploadpostIndexRoute: typeof HomeUploadpostIndexRoute
 }
 
@@ -178,6 +199,7 @@ const rootRouteChildren: RootRouteChildren = {
   HalloffameIndexRoute: HalloffameIndexRoute,
   HomeIndexRoute: HomeIndexRoute,
   MypageIndexRoute: MypageIndexRoute,
+  HomeCommentIndexRoute: HomeCommentIndexRoute,
   HomeUploadpostIndexRoute: HomeUploadpostIndexRoute,
 }
 
@@ -196,6 +218,7 @@ export const routeTree = rootRoute
         "/halloffame/",
         "/home/",
         "/mypage/",
+        "/home/comment/",
         "/home/uploadpost/"
       ]
     },
@@ -213,6 +236,9 @@ export const routeTree = rootRoute
     },
     "/mypage/": {
       "filePath": "mypage/index.tsx"
+    },
+    "/home/comment/": {
+      "filePath": "home/comment/index.tsx"
     },
     "/home/uploadpost/": {
       "filePath": "home/uploadpost/index.tsx"
