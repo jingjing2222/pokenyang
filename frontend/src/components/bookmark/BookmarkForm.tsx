@@ -33,7 +33,7 @@ export const BookmarkForm = ({ userId }: BookmarkFromProps) => {
         </div>
 
         <div className="pt-10 flex flex-start gap-4 w-full items-center pl-5">
-          <img src='/images/myicon.svg' className="w-20 h-20" alt="프로필 이미지" />
+          <img src='/images/userimage.svg' className="w-20 h-20" alt="프로필 이미지" />
           <div className="flex flex-col gap-2 font-extrabold text-lg">
             <div className="text-[#F291D0]">
               {'김아삭'}
