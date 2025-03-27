@@ -1,8 +1,6 @@
 package asac7.com.PokeNyang.service;
 
-import asac7.com.PokeNyang.dto.PostDto;
-import asac7.com.PokeNyang.dto.UserBuilderDto;
-import asac7.com.PokeNyang.dto.UserLoginResponseDto;
+import asac7.com.PokeNyang.dto.*;
 import asac7.com.PokeNyang.entity.Post;
 import asac7.com.PokeNyang.entity.User;
 import asac7.com.PokeNyang.repository.UserInterface;
@@ -49,8 +47,11 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public List<Long> getPostIdsByUserId(Long userId) {
-        return userRepository.findPostIdsByUserId(userId);
-    }
+    public List<UserGetPostDto> getPostIdsByUserId(Long userId) {
+        List<Post> posts = userRepository.findPostsByUserId(userId);
 
+        return posts.stream()
+                .map(UserGetPostDto::new)
+                .toList();
+    }
 }

@@ -1,6 +1,7 @@
 package asac7.com.PokeNyang.controller;
 
 import asac7.com.PokeNyang.dto.*;
+import asac7.com.PokeNyang.entity.Post;
 import asac7.com.PokeNyang.service.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -32,9 +33,8 @@ public class UserController {
     }
 
     @GetMapping("/post/{id}")
-    public ResponseEntity<List<Long>> getCommentsByUser(@PathVariable(name = "id") Long userId) {
+    public ResponseEntity<List<UserGetPostDto>> getCommentsByUser(@PathVariable(name = "id") Long userId) {
         return ResponseEntity.ok(userService.getPostIdsByUserId(userId));
-
     }
 
 }

@@ -1,5 +1,6 @@
 package asac7.com.PokeNyang.repository;
 
+import asac7.com.PokeNyang.entity.Post;
 import asac7.com.PokeNyang.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -27,9 +28,9 @@ public class UserRepository {
         }
     }
 
-    public List<Long> findPostIdsByUserId(Long userId) {
-        String jpql = "SELECT c.id FROM Post c WHERE c.user.id = :userId";
-        return em.createQuery(jpql, Long.class)
+    public List<Post> findPostsByUserId(Long userId) {
+        String jpql = "SELECT p FROM Post p WHERE p.user.id = :userId";
+        return em.createQuery(jpql, Post.class)
                 .setParameter("userId", userId)
                 .getResultList();
     }
