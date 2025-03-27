@@ -57,7 +57,7 @@ export const PostIdForm = ({ postId }: PostIdFormProps) => {
 
     {/* 컨텐츠 내용 */}
     <div className="p-4 flex flex-col flex-grow border-[#D9D9D9] border-b pb-6">
-      <div className="text-2xl font-semibold">
+      <div className="text-2xl font-semibold pb-4">
         {post.title}
       </div>{post.image.map((img, index) =>
         <img key={`img ${index + 1}`} src={img} alt={`img ${index + 1}`} />)}

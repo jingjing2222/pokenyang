@@ -106,7 +106,19 @@ export const MainMap = () => {
               alt="게시물 업로드"
             />
           </div>
-
+          <MapMarker
+            image={{
+              src: "/images/currentmarker.svg",
+              size: {
+                width: 30,
+                height: 30,
+              },
+            }}
+            position={{
+              lat: location.lat,
+              lng: location.lng
+            }}
+          />
           {/* 마커 찍는 부분 */}
           {mockData.map((item) => (
             <MapMarker
