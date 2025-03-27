@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useGeoLocation } from "@/hooks/useGeoLocation";
 import {
   Map as KakaoMap,
@@ -46,7 +46,7 @@ export const MainMap = () => {
 
           {/* 업로드 버튼 */}
           <img onClick={handleUpload}
-            className="absolute bottom-10 right-2 z-70"
+            className="absolute bottom-10 right-2 z-70 cursor-pointer"
             src="/images/uploadpost.svg" />
 
           {/* 마커 찍는 부분 */}
