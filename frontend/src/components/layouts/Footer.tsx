@@ -7,7 +7,7 @@ export const Footer = () => {
     navigate({ to: `/${link}` })
   }
 
-  return <footer className="w-[478px] h-[117px] bg-white flex justify-evenly items-center">
+  return <footer className="w-[478px] h-[117px] bg-white flex justify-evenly items-center border-t border-[#D9D9D9]">
     <div>
       <img className="cursor-pointer" src="/images/footbookmark.svg" onClick={() => { handleLink('bookmark') }} />
     </div>
