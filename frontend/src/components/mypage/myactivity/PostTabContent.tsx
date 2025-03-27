@@ -1,18 +1,56 @@
 import type { TabContentProps } from "@/components/mypage/myactivity/MyActivityForm";
-import { postMockData, type PostMockData } from "@/mocks/mockData";
 import { useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { fetchUserPosts } from "@/api/api";
 
 const PostTabContent = ({ userId }: TabContentProps) => {
-  const [userPosts, setUserPosts] = useState<PostMockData[]>([]);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const filteredPosts = postMockData.filter(post => post.author === userId);
-    setUserPosts(filteredPosts);
-  }, [userId]);
+  // API를 사용하여 사용자 게시물 데이터 가져오기
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['userPosts', userId],
+    queryFn: fetchUserPosts,
+  });
 
-  if (userPosts.length === 0) {
+  // 게시물 상세 페이지로 이동
+  const navigateToPost = (postId: number) => {
+    navigate({ to: `/home/${postId}` });
+  };
+
+  // 게시물 수정 핸들러
+  const handleEditPost = (postId: number, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log('수정', postId);
+  };
+
+  // 게시물 삭제 핸들러
+  const handleDeletePost = (postId: number, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log('삭제', postId);
+  };
+
+  // 로딩 상태 처리
+  if (isLoading) {
+    return (
+      <div className="min-h-[400px] flex flex-col items-center justify-center">
+        <p className="text-[#919295]">게시물을 불러오는 중입니다...</p>
+      </div>
+    );
+  }
+
+  // 에러 상태 처리
+  if (isError) {
+    return (
+      <div className="min-h-[400px] flex flex-col items-center justify-center">
+        <p className="text-[#919295]">게시물을 불러오는데 실패했습니다.</p>
+      </div>
+    );
+  }
+
+  // 게시물이 없는 경우
+  if (!data || data.length === 0) {
     return (
       <div className="min-h-[400px] flex flex-col items-center justify-center">
         <p className="text-[#919295]">작성한 게시물이 없습니다.</p>
@@ -23,15 +61,17 @@ const PostTabContent = ({ userId }: TabContentProps) => {
   return (
     <div className="min-h-[400px]">
       <div className="flex flex-col gap-4">
-        {userPosts.map(post => (
+        {data.map(post => (
           <div
-            onClick={() => { navigate({ to: `/home/${post.post_id}` }) }}
-            key={post.post_id} className="border border-[#D9D9D9] rounded-lg overflow-hidden shadow-sm cursor-pointer">
+            onClick={() => navigateToPost(post.id)}
+            key={post.id}
+            className="border border-[#D9D9D9] rounded-lg overflow-hidden shadow-sm cursor-pointer"
+          >
             <div className="flex">
               {/* 이미지 영역 */}
               <div className="w-1/3">
                 <img
-                  src={post.image[0]}
+                  src={post.images.length > 0 ? post.images[0].url : '/images/default-post.svg'}
                   className="w-full h-full object-cover py-4 pl-4"
                   alt={post.title}
                 />
@@ -40,7 +80,9 @@ const PostTabContent = ({ userId }: TabContentProps) => {
               {/* 콘텐츠 영역 */}
               <div className="w-2/3 p-4 flex flex-col justify-between">
                 <div>
-                  <p className="text-[#919295] text-sm mb-1">{post.date}</p>
+                  <p className="text-[#919295] text-sm mb-1">
+                    {new Date(post.createdAt).toLocaleDateString()}
+                  </p>
                   <h3 className="font-bold text-lg mb-1">{post.title}</h3>
                   <p className="text-[#444444]">{post.content}</p>
                 </div>
@@ -49,23 +91,15 @@ const PostTabContent = ({ userId }: TabContentProps) => {
                 <div className="flex justify-end gap-2 mt-2">
                   <button
                     type='button'
-                    className="text-[#F291D0] border border-[#D9D9D9] rounded-lg px-4 py-1 text-sm "
-                    onClick={(e) => {
-                      e.preventDefault()
-                      e.stopPropagation()
-                      console.log('수정', post.post_id)
-                    }}
+                    className="text-[#F291D0] border border-[#D9D9D9] rounded-lg px-4 py-1 text-sm"
+                    onClick={(e) => handleEditPost(post.id, e)}
                   >
                     수정
                   </button>
                   <button
                     type='button'
                     className="text-[#F291D0] border border-[#D9D9D9] rounded-lg px-4 py-1 text-sm cursor-pointer"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      e.stopPropagation()
-                      console.log('삭제', post.post_id)
-                    }}
+                    onClick={(e) => handleDeletePost(post.id, e)}
                   >
                     삭제
                   </button>

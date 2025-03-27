@@ -6,7 +6,8 @@ import {
   useKakaoLoader,
 } from "react-kakao-maps-sdk";
 import { useNavigate } from "@tanstack/react-router";
-import { mockData } from "@/mocks/mockData";
+import { useQuery } from "@tanstack/react-query";
+import { fetchUserPosts } from "@/api/api";
 
 const geolocationOptions = {
   enableHighAccuracy: false,
@@ -26,6 +27,11 @@ export const MainMap = () => {
   const [shouldRefreshLocation, setShouldRefreshLocation] = useState<boolean>(false);
 
   const navigate = useNavigate();
+
+  const { data: posts, isLoading } = useQuery({
+    queryKey: ['posts'],
+    queryFn: fetchUserPosts,
+  });
 
   useKakaoLoader({
     appkey: import.meta.env.VITE_KAKAOMAP_KEY,
@@ -53,7 +59,6 @@ export const MainMap = () => {
               setIsPanto(true);
               setShouldRefreshLocation(false);
             },
-
           );
         }
       };
@@ -72,8 +77,12 @@ export const MainMap = () => {
 
   const handleMoveCenter = () => {
     setShouldRefreshLocation(true);
-    console.log(center)
+    console.log(center);
   };
+
+  const postsWithLocation = posts?.filter(post =>
+    post.lat !== null && post.lng !== null
+  ) || [];
 
   return (
     <div>
@@ -86,7 +95,6 @@ export const MainMap = () => {
           level={3}
           onCenterChanged={() => setIsPanto(false)}
         >
-
           {/* 자기 위치 이동 버튼 */}
           <div className="absolute bottom-24 right-2 z-10 w-12 h-12">
             <img
@@ -106,6 +114,8 @@ export const MainMap = () => {
               alt="게시물 업로드"
             />
           </div>
+
+          {/* 현재 위치 마커 */}
           <MapMarker
             image={{
               src: "/images/currentmarker.svg",
@@ -119,11 +129,12 @@ export const MainMap = () => {
               lng: location.lng
             }}
           />
-          {/* 마커 찍는 부분 */}
-          {mockData.map((item) => (
+
+          {/* 게시물 마커 */}
+          {!isLoading && postsWithLocation.map((post) => (
             <MapMarker
-              key={item.postId}
-              onClick={() => handleMovePost(item.postId)}
+              key={post.id}
+              onClick={() => handleMovePost(post.id)}
               image={{
                 src: "/images/marker.svg",
                 size: {
@@ -132,13 +143,22 @@ export const MainMap = () => {
                 },
               }}
               position={{
-                lat: item.position.lat,
-                lng: item.position.lng
+                lat: post.lat as number,
+                lng: post.lng as number
               }}
             />
           ))}
         </KakaoMap>
+
+        {/* 로딩 인디케이터 */}
+        {isLoading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-50 z-20">
+            <div className="text-[#F291D0] text-lg">지도 정보를 불러오는 중...</div>
+          </div>
+        )}
       </div>
     </div>
   );
 };
+
+export default MainMap;

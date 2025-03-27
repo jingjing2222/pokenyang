@@ -8,7 +8,6 @@ import { loginUser } from '@/api/api';
 interface LoginFormData {
   userId: string;
   password: string;
-  rememberMe: boolean;
 }
 
 const spinStyle = {
@@ -27,25 +26,24 @@ const LoginForm: React.FC = () => {
     defaultValues: {
       userId: '',
       password: '',
-      rememberMe: false
     }
   });
 
   const loginMutation = useMutation({
-    mutationFn: (data: { email: string; password: number }) =>
-      loginUser(data.email, data.password),
-    onSuccess: () => {
+    mutationFn: ({ email, password }: { email: string; password: string }) => {
+      return loginUser(email, password).then(response => ({
+        response,
+        email
+      }));
+    },
+    onSuccess: (data) => {
+      const { response, email } = data;
       localStorage.setItem('user', JSON.stringify({
-        userId: formData.userId,
+        userId: response.id,
+        email: email,
         isLoggedIn: true,
         loginTime: new Date().toISOString()
       }));
-
-      if (formData.rememberMe) {
-        localStorage.setItem('rememberedUserId', formData.userId);
-      } else {
-        localStorage.removeItem('rememberedUserId');
-      }
 
       navigate({ to: '/home' });
     },
@@ -55,22 +53,12 @@ const LoginForm: React.FC = () => {
     }
   });
 
-  let formData: LoginFormData;
-
   const onSubmit = (data: LoginFormData) => {
-    formData = data;
     setLoginError(null);
-
-    const numericPassword = Number(data.password);
-
-    if (isNaN(numericPassword)) {
-      setLoginError('비밀번호는 숫자만 입력 가능합니다.');
-      return;
-    }
 
     loginMutation.mutate({
       email: data.userId,
-      password: numericPassword
+      password: data.password
     });
   };
 
@@ -125,18 +113,6 @@ const LoginForm: React.FC = () => {
               {errors.password && (
                 <p className="mt-1 text-xs text-red-500">{errors.password.message}</p>
               )}
-            </div>
-
-            <div className="flex items-center w-[300px]">
-              <input
-                id="rememberMe"
-                type="checkbox"
-                className="h-4 w-4 text-[#F2B3D1] focus:ring-[#F2B3D1] border-gray-300 rounded"
-                {...register('rememberMe')}
-              />
-              <label htmlFor="rememberMe" className="ml-2 block text-sm text-gray-700">
-                로그인 상태 유지
-              </label>
             </div>
 
             <button
