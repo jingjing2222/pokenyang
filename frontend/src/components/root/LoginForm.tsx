@@ -2,18 +2,20 @@ import { useNavigate } from '@tanstack/react-router';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { LoaderCircle } from 'lucide-react';
+import { useMutation } from '@tanstack/react-query';
+import { loginUser } from '@/api/api';
 
 interface LoginFormData {
   userId: string;
   password: string;
   rememberMe: boolean;
 }
+
 const spinStyle = {
   animation: 'spin 1s linear infinite'
 };
 
 const LoginForm: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const [loginError, setLoginError] = useState<string | null>(null);
   const navigate = useNavigate();
 
@@ -29,31 +31,47 @@ const LoginForm: React.FC = () => {
     }
   });
 
+  const loginMutation = useMutation({
+    mutationFn: (data: { email: string; password: number }) =>
+      loginUser(data.email, data.password),
+    onSuccess: () => {
+      localStorage.setItem('user', JSON.stringify({
+        userId: formData.userId,
+        isLoggedIn: true,
+        loginTime: new Date().toISOString()
+      }));
+
+      if (formData.rememberMe) {
+        localStorage.setItem('rememberedUserId', formData.userId);
+      } else {
+        localStorage.removeItem('rememberedUserId');
+      }
+
+      navigate({ to: '/home' });
+    },
+    onError: (error) => {
+      console.error('Login error:', error);
+      setLoginError('로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.');
+    }
+  });
+
+  let formData: LoginFormData;
+
   const onSubmit = (data: LoginFormData) => {
-    setIsLoading(true);
+    formData = data;
     setLoginError(null);
 
-    setTimeout(() => {
-      try {
-        localStorage.setItem('user', JSON.stringify({
-          userId: data.userId,
-          isLoggedIn: true,
-          loginTime: new Date().toISOString()
-        }));
+    const numericPassword = Number(data.password);
 
-        if (data.rememberMe) {
-          localStorage.setItem('rememberedUserId', data.userId);
-        } else {
-          localStorage.removeItem('rememberedUserId');
-        }
+    if (isNaN(numericPassword)) {
+      setLoginError('비밀번호는 숫자만 입력 가능합니다.');
+      return;
+    }
 
-        setIsLoading(false);
-        navigate({ to: '/home' });
-      } catch (error) {
-        setLoginError('로그인 정보 저장 중 오류가 발생했습니다.');
-        setIsLoading(false);
-      }
-    }, 1000);
+    loginMutation.mutate({
+      email: data.userId,
+      password: numericPassword
+    });
   };
 
   return (
@@ -78,10 +96,10 @@ const LoginForm: React.FC = () => {
                 placeholder='이메일'
                 className={`shadow-md px-2 w-full h-full border rounded-md ${errors.userId ? 'border-red-500' : 'border-gray-300'}`}
                 {...register('userId', {
-                  required: '아이디를 입력해주세요',
-                  minLength: {
-                    value: 4,
-                    message: '아이디는 최소 4자 이상이어야 합니다'
+                  required: '이메일을 입력해주세요',
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: '유효한 이메일 주소를 입력해주세요'
                   }
                 })}
               />
@@ -109,12 +127,24 @@ const LoginForm: React.FC = () => {
               )}
             </div>
 
+            <div className="flex items-center w-[300px]">
+              <input
+                id="rememberMe"
+                type="checkbox"
+                className="h-4 w-4 text-[#F2B3D1] focus:ring-[#F2B3D1] border-gray-300 rounded"
+                {...register('rememberMe')}
+              />
+              <label htmlFor="rememberMe" className="ml-2 block text-sm text-gray-700">
+                로그인 상태 유지
+              </label>
+            </div>
+
             <button
               type="submit"
               className="px-4 py-2 text-white text-3xl font-semibold bg-[#F2B3D1] focus:outline-none w-[260px] h-[60px] rounded-4xl"
-              disabled={isLoading}
+              disabled={loginMutation.isPending}
             >
-              {isLoading ? (
+              {loginMutation.isPending ? (
                 <span className="flex items-center justify-center">
                   <LoaderCircle style={spinStyle} />
                 </span>
