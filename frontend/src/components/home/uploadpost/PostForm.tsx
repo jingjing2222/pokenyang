@@ -38,14 +38,12 @@ export const PostForm = () => {
   };
 
   const onSubmit = (data: PostFormData) => {
-    const createdAt = new Date().toISOString();
 
     console.log("제출된 데이터:", {
       ...data,
       imageFile: imageFile,
       location: location,
       userId: userData?.userId,
-      createdAt: createdAt
     });
 
     navigate({ to: '/home' });

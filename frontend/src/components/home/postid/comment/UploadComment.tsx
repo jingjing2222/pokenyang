@@ -24,13 +24,11 @@ export const UploadComment = ({ postId }: UploadCommentProps) => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const createdAt = new Date().toISOString();
 
     console.log("댓글 제출 데이터:", {
       content: content,
       userId: userData?.userId,
       postId: postId,
-      createdAt: createdAt
     });
 
     setContent("");
