@@ -17,16 +17,29 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
 
-    @Transactional(readOnly = true)
+    @Transactional
     public List<UserResponseDto> findAllUser() {
         List<User> retrived = userRepository.findAll();
-        return retrived.stream().map(UserResponseDto::of).toList();
+        return retrived.stream().map(UserResponseDto::from).toList();
+    }
+
+    @Transactional
+    public UserResponseDto findByUser(UserRequestDto request) {
+        User retrived = userRepository.findByEmail(request.getEmail());
+        return UserResponseDto.from(retrived);
     }
 
     @Transactional
     public UserResponseDto createUser(UserRequestDto request) {
         User toSave = request.toEntity();
         User saved = userRepository.save(toSave);
+        return UserResponseDto.from(saved);
+    }
+
+    @Transactional
+    public UserResponseDto loginUser(UserRequestDto request) {
+        User toLogin = request.toEntity();
+        User login = userRepository.save(toSave);
         return UserResponseDto.from(saved);
     }
 }
