@@ -77,8 +77,7 @@ export const MainMap = () => {
 
   return (
     <div>
-      <div style={{ position: 'relative', width: '100%', height: '100vh' }} ref={mapContainerRef}>
-
+      <div style={{ position: 'relative', width: '100%', height: 'calc(100vh - 117px)' }} ref={mapContainerRef}>
         {/* 지도 */}
         <KakaoMap
           center={center}
