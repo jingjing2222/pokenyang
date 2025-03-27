@@ -7,5 +7,6 @@ export const Route = createFileRoute('/mypage/$userId/activity')({
 
 function RouteComponent() {
   const { userId } = Route.useParams()
-  return <MyActivityForm userId={userId} />
+  console.log(userId)
+  return <MyActivityForm userId={parseInt(userId)} />
 }

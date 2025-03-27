@@ -11,7 +11,6 @@ export const PostIdForm = ({ postId }: PostIdFormProps) => {
   const navigate = useNavigate();
   const [isShare, setIsShare] = useState(false);
 
-  // Tanstack Query를 사용하여 특정 게시물 데이터 가져오기
   const { data: post, isLoading, isError } = useQuery({
     queryKey: ['post', postId],
     queryFn: () => fetchUserPost(Number(postId)),
@@ -28,11 +27,9 @@ export const PostIdForm = ({ postId }: PostIdFormProps) => {
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href);
     setIsShare(true);
-    // 3초 후 공유 메시지 숨기기
     setTimeout(() => setIsShare(false), 3000);
   };
 
-  // 로딩 상태 처리
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-[300px]">

@@ -1,37 +1,46 @@
 import type { TabContentProps } from "@/components/mypage/myactivity/MyActivityForm";
 import { useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { fetchUserPosts } from "@/api/api";
+import { fetchUserMatchPost } from "@/api/api";
+
+export interface PostImage {
+  id: number;
+  url: string;
+}
+
+export interface FetchUserMatchPostResponse {
+  id: number;
+  title: string;
+  content: string;
+  createdAt: string;
+  images: PostImage[];
+}
 
 const PostTabContent = ({ userId }: TabContentProps) => {
   const navigate = useNavigate();
 
-  // API를 사용하여 사용자 게시물 데이터 가져오기
   const { data, isLoading, isError } = useQuery({
     queryKey: ['userPosts', userId],
-    queryFn: fetchUserPosts,
+    queryFn: () => fetchUserMatchPost(userId),
   });
+  console.table(data)
 
-  // 게시물 상세 페이지로 이동
   const navigateToPost = (postId: number) => {
     navigate({ to: `/home/${postId}` });
   };
 
-  // 게시물 수정 핸들러
   const handleEditPost = (postId: number, e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     console.log('수정', postId);
   };
 
-  // 게시물 삭제 핸들러
   const handleDeletePost = (postId: number, e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     console.log('삭제', postId);
   };
 
-  // 로딩 상태 처리
   if (isLoading) {
     return (
       <div className="min-h-[400px] flex flex-col items-center justify-center">
@@ -40,7 +49,6 @@ const PostTabContent = ({ userId }: TabContentProps) => {
     );
   }
 
-  // 에러 상태 처리
   if (isError) {
     return (
       <div className="min-h-[400px] flex flex-col items-center justify-center">
@@ -49,7 +57,6 @@ const PostTabContent = ({ userId }: TabContentProps) => {
     );
   }
 
-  // 게시물이 없는 경우
   if (!data || data.length === 0) {
     return (
       <div className="min-h-[400px] flex flex-col items-center justify-center">
@@ -71,7 +78,7 @@ const PostTabContent = ({ userId }: TabContentProps) => {
               {/* 이미지 영역 */}
               <div className="w-1/3">
                 <img
-                  src={post.images.length > 0 ? post.images[0].url : '/images/default-post.svg'}
+                  src={post.images && post.images.length > 0 ? post.images[0].url : '/images/default-post.svg'}
                   className="w-full h-full object-cover py-4 pl-4"
                   alt={post.title}
                 />
