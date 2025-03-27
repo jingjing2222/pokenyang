@@ -1,21 +1,27 @@
 package asac7.com.PokeNyang.service;
 
-import asac7.com.PokeNyang.dto.UserRequestDto;
-import asac7.com.PokeNyang.dto.UserResponseDto;
+import asac7.com.PokeNyang.dto.UserLoginResponseDto;
 import asac7.com.PokeNyang.entity.User;
 import asac7.com.PokeNyang.repository.UserRepository;
-import jakarta.transaction.Transactional;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class UserService {
-    private final UserRepository userRepository;
 
-    
+    UserRepository userRepository;
+
+    public UserLoginResponseDto isLogin(String email, String password) {
+        User isUser = userRepository.loginUser(email, password);
+        if (isUser != null) {
+            return new UserLoginResponseDto(true, isUser.getId());
+        } else {
+            return new UserLoginResponseDto(false, null);
+        }
+    }
+
 }

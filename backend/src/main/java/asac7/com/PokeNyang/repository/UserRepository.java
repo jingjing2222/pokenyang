@@ -1,15 +1,27 @@
 package asac7.com.PokeNyang.repository;
 
 import asac7.com.PokeNyang.entity.User;
-import org.springframework.data.jpa.repository.JpaRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
-    User createUser(User entity);
-    List<User> findAll();
-    User findByEmail(String email);
-    // 로그인
+public class UserRepository {
+
+    @PersistenceContext
+    private EntityManager em;
+
+    public User loginUser(String email, String password) {
+        try {
+            User userLogin = em.createQuery("SELECT u FROM User u WHERE u.email = :email AND u.password = :password", User.class)
+                    .setParameter("email", email)
+                    .setParameter("password", password)
+                    .getSingleResult();
+            return userLogin;
+
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
 }
