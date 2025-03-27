@@ -9,7 +9,7 @@ export const Footer = () => {
 
   return <footer className="w-[478px] h-[117px] bg-white flex justify-evenly items-center">
     <div>
-      <img className="cursor-pointer" src="/images/halloffame.svg" onClick={() => { handleLink('halloffame') }} />
+      <img className="cursor-pointer" src="/images/footbookmark.svg" onClick={() => { handleLink('bookmark') }} />
     </div>
     <div>
       <img className="cursor-pointer" src="/images/home.svg" onClick={() => { handleLink('home') }} />

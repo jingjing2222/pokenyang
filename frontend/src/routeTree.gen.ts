@@ -14,7 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as MypageIndexImport } from './routes/mypage/index'
 import { Route as HomeIndexImport } from './routes/home/index'
-import { Route as HalloffameIndexImport } from './routes/halloffame/index'
+import { Route as BookmarkIndexImport } from './routes/bookmark/index'
 import { Route as HomePostIdImport } from './routes/home/$postId'
 import { Route as HomeUploadpostIndexImport } from './routes/home/uploadpost/index'
 import { Route as HomeCommentIndexImport } from './routes/home/comment/index'
@@ -39,9 +39,9 @@ const HomeIndexRoute = HomeIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const HalloffameIndexRoute = HalloffameIndexImport.update({
-  id: '/halloffame/',
-  path: '/halloffame/',
+const BookmarkIndexRoute = BookmarkIndexImport.update({
+  id: '/bookmark/',
+  path: '/bookmark/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -81,11 +81,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomePostIdImport
       parentRoute: typeof rootRoute
     }
-    '/halloffame/': {
-      id: '/halloffame/'
-      path: '/halloffame'
-      fullPath: '/halloffame'
-      preLoaderRoute: typeof HalloffameIndexImport
+    '/bookmark/': {
+      id: '/bookmark/'
+      path: '/bookmark'
+      fullPath: '/bookmark'
+      preLoaderRoute: typeof BookmarkIndexImport
       parentRoute: typeof rootRoute
     }
     '/home/': {
@@ -124,7 +124,7 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/home/$postId': typeof HomePostIdRoute
-  '/halloffame': typeof HalloffameIndexRoute
+  '/bookmark': typeof BookmarkIndexRoute
   '/home': typeof HomeIndexRoute
   '/mypage': typeof MypageIndexRoute
   '/home/comment': typeof HomeCommentIndexRoute
@@ -134,7 +134,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/home/$postId': typeof HomePostIdRoute
-  '/halloffame': typeof HalloffameIndexRoute
+  '/bookmark': typeof BookmarkIndexRoute
   '/home': typeof HomeIndexRoute
   '/mypage': typeof MypageIndexRoute
   '/home/comment': typeof HomeCommentIndexRoute
@@ -145,7 +145,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/home/$postId': typeof HomePostIdRoute
-  '/halloffame/': typeof HalloffameIndexRoute
+  '/bookmark/': typeof BookmarkIndexRoute
   '/home/': typeof HomeIndexRoute
   '/mypage/': typeof MypageIndexRoute
   '/home/comment/': typeof HomeCommentIndexRoute
@@ -157,7 +157,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/home/$postId'
-    | '/halloffame'
+    | '/bookmark'
     | '/home'
     | '/mypage'
     | '/home/comment'
@@ -166,7 +166,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/home/$postId'
-    | '/halloffame'
+    | '/bookmark'
     | '/home'
     | '/mypage'
     | '/home/comment'
@@ -175,7 +175,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/home/$postId'
-    | '/halloffame/'
+    | '/bookmark/'
     | '/home/'
     | '/mypage/'
     | '/home/comment/'
@@ -186,7 +186,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   HomePostIdRoute: typeof HomePostIdRoute
-  HalloffameIndexRoute: typeof HalloffameIndexRoute
+  BookmarkIndexRoute: typeof BookmarkIndexRoute
   HomeIndexRoute: typeof HomeIndexRoute
   MypageIndexRoute: typeof MypageIndexRoute
   HomeCommentIndexRoute: typeof HomeCommentIndexRoute
@@ -196,7 +196,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   HomePostIdRoute: HomePostIdRoute,
-  HalloffameIndexRoute: HalloffameIndexRoute,
+  BookmarkIndexRoute: BookmarkIndexRoute,
   HomeIndexRoute: HomeIndexRoute,
   MypageIndexRoute: MypageIndexRoute,
   HomeCommentIndexRoute: HomeCommentIndexRoute,
@@ -215,7 +215,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/home/$postId",
-        "/halloffame/",
+        "/bookmark/",
         "/home/",
         "/mypage/",
         "/home/comment/",
@@ -228,8 +228,8 @@ export const routeTree = rootRoute
     "/home/$postId": {
       "filePath": "home/$postId.tsx"
     },
-    "/halloffame/": {
-      "filePath": "halloffame/index.tsx"
+    "/bookmark/": {
+      "filePath": "bookmark/index.tsx"
     },
     "/home/": {
       "filePath": "home/index.tsx"
