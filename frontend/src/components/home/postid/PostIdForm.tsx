@@ -1,8 +1,11 @@
 import { postMockData } from "@/mocks/mockData"
-import { useNavigate, useParams } from "@tanstack/react-router"
+import { useNavigate } from "@tanstack/react-router"
 
-export const PostIdForm = () => {
-  const { postId } = useParams({ from: '/home/$postId' })
+export interface PostIdFormProps {
+  postId: string
+}
+
+export const PostIdForm = ({ postId }: PostIdFormProps) => {
   const post = postMockData.find((e) => e.post_id === parseInt(postId))
   const navigate = useNavigate()
 
@@ -10,7 +13,7 @@ export const PostIdForm = () => {
     navigate({ to: '/home' })
   }
   const handleComment = () => {
-    navigate({ to: '/home/comment' })
+    navigate({ to: `/home/${postId}/comment` })
   }
 
   if (!post) {

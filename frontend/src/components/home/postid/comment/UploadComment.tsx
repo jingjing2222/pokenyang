@@ -1,22 +1,36 @@
 import { useEffect, useState, type FormEvent } from "react";
 
-export const UploadComment = () => {
-  const [userId, setUserId] = useState<string | null>(null);
+export interface UserData {
+  userId: string;
+  isLoggedIn: boolean;
+  loginTime: string;
+}
+export interface UploadCommentProps {
+  postId: string
+}
+
+export const UploadComment = ({ postId }: UploadCommentProps) => {
+  const [userData, setUserData] = useState<UserData | null>(null);
   const [content, setContent] = useState<string>("");
 
   useEffect(() => {
-    const storedUserId = localStorage.getItem("userId");
-    setUserId(storedUserId);
+    const storedUserData = localStorage.getItem("user");
+    if (storedUserData) {
+      const parsedUserData = JSON.parse(storedUserData);
+      setUserData(parsedUserData);
+    }
   }, []);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const currentTime = new Date().toISOString();
+    const createdAt = new Date().toISOString();
+
     console.log("댓글 제출 데이터:", {
       content: content,
-      userId: userId,
-      createdAt: currentTime
+      userId: userData?.userId,
+      postId: postId,
+      createdAt: createdAt
     });
 
     setContent("");

@@ -17,7 +17,7 @@ import { Route as HomeIndexImport } from './routes/home/index'
 import { Route as BookmarkIndexImport } from './routes/bookmark/index'
 import { Route as HomePostIdImport } from './routes/home/$postId'
 import { Route as HomeUploadpostIndexImport } from './routes/home/uploadpost/index'
-import { Route as HomeCommentIndexImport } from './routes/home/comment/index'
+import { Route as HomePostIdCommentImport } from './routes/home/$postId/comment'
 
 // Create/Update Routes
 
@@ -57,10 +57,10 @@ const HomeUploadpostIndexRoute = HomeUploadpostIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const HomeCommentIndexRoute = HomeCommentIndexImport.update({
-  id: '/home/comment/',
-  path: '/home/comment/',
-  getParentRoute: () => rootRoute,
+const HomePostIdCommentRoute = HomePostIdCommentImport.update({
+  id: '/comment',
+  path: '/comment',
+  getParentRoute: () => HomePostIdRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -102,12 +102,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MypageIndexImport
       parentRoute: typeof rootRoute
     }
-    '/home/comment/': {
-      id: '/home/comment/'
-      path: '/home/comment'
-      fullPath: '/home/comment'
-      preLoaderRoute: typeof HomeCommentIndexImport
-      parentRoute: typeof rootRoute
+    '/home/$postId/comment': {
+      id: '/home/$postId/comment'
+      path: '/comment'
+      fullPath: '/home/$postId/comment'
+      preLoaderRoute: typeof HomePostIdCommentImport
+      parentRoute: typeof HomePostIdImport
     }
     '/home/uploadpost/': {
       id: '/home/uploadpost/'
@@ -121,34 +121,46 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
+interface HomePostIdRouteChildren {
+  HomePostIdCommentRoute: typeof HomePostIdCommentRoute
+}
+
+const HomePostIdRouteChildren: HomePostIdRouteChildren = {
+  HomePostIdCommentRoute: HomePostIdCommentRoute,
+}
+
+const HomePostIdRouteWithChildren = HomePostIdRoute._addFileChildren(
+  HomePostIdRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/home/$postId': typeof HomePostIdRoute
+  '/home/$postId': typeof HomePostIdRouteWithChildren
   '/bookmark': typeof BookmarkIndexRoute
   '/home': typeof HomeIndexRoute
   '/mypage': typeof MypageIndexRoute
-  '/home/comment': typeof HomeCommentIndexRoute
+  '/home/$postId/comment': typeof HomePostIdCommentRoute
   '/home/uploadpost': typeof HomeUploadpostIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/home/$postId': typeof HomePostIdRoute
+  '/home/$postId': typeof HomePostIdRouteWithChildren
   '/bookmark': typeof BookmarkIndexRoute
   '/home': typeof HomeIndexRoute
   '/mypage': typeof MypageIndexRoute
-  '/home/comment': typeof HomeCommentIndexRoute
+  '/home/$postId/comment': typeof HomePostIdCommentRoute
   '/home/uploadpost': typeof HomeUploadpostIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/home/$postId': typeof HomePostIdRoute
+  '/home/$postId': typeof HomePostIdRouteWithChildren
   '/bookmark/': typeof BookmarkIndexRoute
   '/home/': typeof HomeIndexRoute
   '/mypage/': typeof MypageIndexRoute
-  '/home/comment/': typeof HomeCommentIndexRoute
+  '/home/$postId/comment': typeof HomePostIdCommentRoute
   '/home/uploadpost/': typeof HomeUploadpostIndexRoute
 }
 
@@ -160,7 +172,7 @@ export interface FileRouteTypes {
     | '/bookmark'
     | '/home'
     | '/mypage'
-    | '/home/comment'
+    | '/home/$postId/comment'
     | '/home/uploadpost'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -169,7 +181,7 @@ export interface FileRouteTypes {
     | '/bookmark'
     | '/home'
     | '/mypage'
-    | '/home/comment'
+    | '/home/$postId/comment'
     | '/home/uploadpost'
   id:
     | '__root__'
@@ -178,28 +190,26 @@ export interface FileRouteTypes {
     | '/bookmark/'
     | '/home/'
     | '/mypage/'
-    | '/home/comment/'
+    | '/home/$postId/comment'
     | '/home/uploadpost/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  HomePostIdRoute: typeof HomePostIdRoute
+  HomePostIdRoute: typeof HomePostIdRouteWithChildren
   BookmarkIndexRoute: typeof BookmarkIndexRoute
   HomeIndexRoute: typeof HomeIndexRoute
   MypageIndexRoute: typeof MypageIndexRoute
-  HomeCommentIndexRoute: typeof HomeCommentIndexRoute
   HomeUploadpostIndexRoute: typeof HomeUploadpostIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  HomePostIdRoute: HomePostIdRoute,
+  HomePostIdRoute: HomePostIdRouteWithChildren,
   BookmarkIndexRoute: BookmarkIndexRoute,
   HomeIndexRoute: HomeIndexRoute,
   MypageIndexRoute: MypageIndexRoute,
-  HomeCommentIndexRoute: HomeCommentIndexRoute,
   HomeUploadpostIndexRoute: HomeUploadpostIndexRoute,
 }
 
@@ -218,7 +228,6 @@ export const routeTree = rootRoute
         "/bookmark/",
         "/home/",
         "/mypage/",
-        "/home/comment/",
         "/home/uploadpost/"
       ]
     },
@@ -226,7 +235,10 @@ export const routeTree = rootRoute
       "filePath": "index.tsx"
     },
     "/home/$postId": {
-      "filePath": "home/$postId.tsx"
+      "filePath": "home/$postId.tsx",
+      "children": [
+        "/home/$postId/comment"
+      ]
     },
     "/bookmark/": {
       "filePath": "bookmark/index.tsx"
@@ -237,8 +249,9 @@ export const routeTree = rootRoute
     "/mypage/": {
       "filePath": "mypage/index.tsx"
     },
-    "/home/comment/": {
-      "filePath": "home/comment/index.tsx"
+    "/home/$postId/comment": {
+      "filePath": "home/$postId/comment.tsx",
+      "parent": "/home/$postId"
     },
     "/home/uploadpost/": {
       "filePath": "home/uploadpost/index.tsx"

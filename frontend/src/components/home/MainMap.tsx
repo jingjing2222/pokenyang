@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGeoLocation, type ILocation } from "@/hooks/useGeoLocation";
 import {
   Map as KakaoMap,

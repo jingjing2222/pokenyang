@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "@tanstack/react-router";
 import ImageUpload from "@/components/home/uploadpost/ImageUpload";
 import { useGeoLocation } from "@/hooks/useGeoLocation";
+import type { UserData } from "@/components/home/postid/comment/UploadComment";
 
 interface PostFormData {
   title: string;
@@ -14,11 +15,15 @@ export const PostForm = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { location, error } = useGeoLocation();
-  const [userId, setUserId] = useState<string | null>(null);
+  const [userData, setUserData] = useState<UserData | null>(null);
+
 
   useEffect(() => {
-    const storedUserId = localStorage.getItem("userId");
-    setUserId(storedUserId);
+    const storedUserData = localStorage.getItem("user");
+    if (storedUserData) {
+      const parsedUserData = JSON.parse(storedUserData);
+      setUserData(parsedUserData);
+    }
   }, []);
 
   const { register, handleSubmit, formState: { errors } } = useForm<PostFormData>({
@@ -39,7 +44,7 @@ export const PostForm = () => {
       ...data,
       imageFile: imageFile,
       location: location,
-      userId: userId,
+      userId: userData?.userId,
       createdAt: createdAt
     });
 
