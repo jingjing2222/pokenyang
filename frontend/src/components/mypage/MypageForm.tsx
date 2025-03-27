@@ -66,12 +66,12 @@ export const MypageForm = () => {
         <FormItem
           icon="myactivity"
           text="나의 활동"
-          onClick={() => navigate({ to: `/mypage/${userData?.userId}` })}
+          onClick={() => navigate({ to: `/mypage/${userData?.userId}/activity` })}
         />
         <FormItem
           icon="editprofile"
           text="프로필 수정"
-          onClick={() => navigate({ to: '/mypage/edit' })}
+          onClick={() => navigate({ to: `/mypage/${userData?.userId}/edit` })}
         />
         <FormItem
           icon="logout"

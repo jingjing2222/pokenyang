@@ -78,7 +78,7 @@ export const PostIdForm = ({ postId }: PostIdFormProps) => {
         <img
           className="cursor-pointer" src="/images/bookmark.svg" />
       </div>
-      {isShare && <div className="absolute bottom-0 left-24 text-[#111111]">복사 완료</div>}
+      {isShare && <div className="absolute bottom-0 left-25 text-[#111111] text-sm">복사 완료</div>}
 
     </div>
 

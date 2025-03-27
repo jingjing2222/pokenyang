@@ -1,5 +1,5 @@
-import MyActivityForm from '@/components/mypage/myactivity/MyActivityForm'
-import { createFileRoute } from '@tanstack/react-router'
+import MypageForm from '@/components/mypage/MypageForm'
+import { createFileRoute, Outlet, useRouterState } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/mypage/$userId')({
   component: RouteComponent,
@@ -7,5 +7,10 @@ export const Route = createFileRoute('/mypage/$userId')({
 
 function RouteComponent() {
   const { userId } = Route.useParams()
-  return <MyActivityForm userId={userId} />
+  const router = useRouterState()
+  const isExactMatch = router.location.pathname === `/home/${userId}`
+  return <div>
+    {isExactMatch ? <MypageForm  /> : null}
+    <Outlet />
+  </div>
 }
