@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -27,6 +29,11 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<UserBuilderDto> register(@RequestBody UserBuilderDto requestDto){
         return ResponseEntity.ok(userService.registerUser(requestDto));
+    }
+
+    @GetMapping("/post/{id}")
+    public List<Long> getCommentsByUser(@PathVariable(name = "id") Long userId) {
+        return userService.getPostIdsByUserId(userId);
     }
 
 }

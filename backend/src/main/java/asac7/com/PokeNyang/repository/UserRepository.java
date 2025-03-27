@@ -6,6 +6,8 @@ import jakarta.persistence.PersistenceContext;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class UserRepository {
 
@@ -23,5 +25,12 @@ public class UserRepository {
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
+    }
+
+    public List<Long> findPostIdsByUserId(Long userId) {
+        String jpql = "SELECT c.id FROM Post c WHERE c.user.id = :userId";
+        return em.createQuery(jpql, Long.class)
+                .setParameter("userId", userId)
+                .getResultList();
     }
 }
