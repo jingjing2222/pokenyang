@@ -1,29 +1,14 @@
 import type { TabContentProps } from "@/components/mypage/myactivity/MyActivityForm";
-import { postMockData, type PostMockData } from "@/mocks/mockData";
+import { postMockData } from "@/mocks/mockData";
 import { useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
 
 const PostTabContent = ({ userId }: TabContentProps) => {
-  const [userPosts, setUserPosts] = useState<PostMockData[]>([]);
   const navigate = useNavigate()
-
-  useEffect(() => {
-    const filteredPosts = postMockData.filter(post => post.author === userId);
-    setUserPosts(filteredPosts);
-  }, [userId]);
-
-  if (userPosts.length === 0) {
-    return (
-      <div className="min-h-[400px] flex flex-col items-center justify-center">
-        <p className="text-[#919295]">작성한 게시물이 없습니다.</p>
-      </div>
-    );
-  }
-
+  console.log(userId)
   return (
     <div className="min-h-[400px]">
       <div className="flex flex-col gap-4">
-        {userPosts.map(post => (
+        {postMockData.map(post => (
           <div
             onClick={() => { navigate({ to: `/home/${post.post_id}` }) }}
             key={post.post_id} className="border border-[#D9D9D9] rounded-lg overflow-hidden shadow-sm cursor-pointer">

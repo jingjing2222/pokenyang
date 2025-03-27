@@ -1,8 +1,7 @@
-import type { TabContentProps } from "@/components/mypage/myactivity/MyActivityForm";
 import { postMockData } from "@/mocks/mockData";
 import { useNavigate } from "@tanstack/react-router";
 
-const CommentTabContent = ({ userId }: TabContentProps) => {
+const CommentTabContent = () => {
   const navigate = useNavigate();
 
   const navigateToPost = (postId: number) => {

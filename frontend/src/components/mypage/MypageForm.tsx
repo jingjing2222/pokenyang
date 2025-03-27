@@ -54,7 +54,7 @@ export const MypageForm = () => {
               {'김아삭'}
             </div>
             <div className="text-lg text-[#919295] font-medium">
-              {userData?.userId}
+              {userData?.email}
             </div>
           </div>
         </div>

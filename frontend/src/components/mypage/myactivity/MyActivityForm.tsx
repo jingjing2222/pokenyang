@@ -3,11 +3,11 @@ import PostTabContent from "@/components/mypage/myactivity/PostTabContent";
 import { useState } from "react";
 
 export interface MyActivityFormProps {
-  userId: string
+  userId: number
 }
 
 export interface TabContentProps {
-  userId: string;
+  userId: number;
 }
 
 export const MyActivityForm = ({ userId }: MyActivityFormProps) => {
@@ -24,7 +24,7 @@ export const MyActivityForm = ({ userId }: MyActivityFormProps) => {
       case 'post':
         return <PostTabContent userId={userId} />;
       case 'comment':
-        return <CommentTabContent userId={userId} />;
+        return <CommentTabContent />;
       default:
         return null;
     }

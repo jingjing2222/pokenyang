@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from "react";
 
 export interface UserData {
   userId: string;
+  email: string;
   isLoggedIn: boolean;
   loginTime: string;
 }
