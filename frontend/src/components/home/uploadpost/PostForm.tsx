@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "@tanstack/react-router";
 import ImageUpload from "@/components/home/uploadpost/ImageUpload";
@@ -14,6 +14,12 @@ export const PostForm = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { location, error } = useGeoLocation();
+  const [userId, setUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedUserId = localStorage.getItem("userId");
+    setUserId(storedUserId);
+  }, []);
 
   const { register, handleSubmit, formState: { errors } } = useForm<PostFormData>({
     defaultValues: {
@@ -27,10 +33,14 @@ export const PostForm = () => {
   };
 
   const onSubmit = (data: PostFormData) => {
+    const createdAt = new Date().toISOString();
+
     console.log("제출된 데이터:", {
       ...data,
       imageFile: imageFile,
-      location: location
+      location: location,
+      userId: userId,
+      createdAt: createdAt
     });
 
     navigate({ to: '/home' });
