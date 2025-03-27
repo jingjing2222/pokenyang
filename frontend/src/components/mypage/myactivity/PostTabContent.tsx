@@ -48,6 +48,7 @@ const PostTabContent = ({ userId }: TabContentProps) => {
                 {/* 버튼 영역 */}
                 <div className="flex justify-end gap-2 mt-2">
                   <button
+                    type='button'
                     className="text-[#F291D0] border border-[#D9D9D9] rounded-lg px-4 py-1 text-sm "
                     onClick={(e) => {
                       e.preventDefault()
@@ -58,6 +59,7 @@ const PostTabContent = ({ userId }: TabContentProps) => {
                     수정
                   </button>
                   <button
+                    type='button'
                     className="text-[#F291D0] border border-[#D9D9D9] rounded-lg px-4 py-1 text-sm cursor-pointer"
                     onClick={(e) => {
                       e.preventDefault()

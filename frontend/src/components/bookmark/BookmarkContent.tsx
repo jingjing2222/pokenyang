@@ -50,6 +50,7 @@ const BookmarkContent = ({ userId }: BookmarkContentProps) => {
                 {/* 버튼 영역 - 북마크에서는 북마크 해제 버튼만 표시 */}
                 <div className="flex justify-end gap-2 mt-2">
                   <button
+                    type="button"
                     className="text-[#F291D0] border border-[#D9D9D9] rounded-lg px-2 py-1 text-sm cursor-pointer"
                     onClick={(e) => {
                       e.preventDefault()

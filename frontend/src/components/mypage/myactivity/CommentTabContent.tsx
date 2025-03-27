@@ -54,31 +54,27 @@ const CommentTabContent = ({ userId }: TabContentProps) => {
 
               {/* 댓글 영역 */}
               <div className="border-t border-[#D9D9D9] p-4">
-                <div className="flex items-center mb-2">
-                  <div className="w-10 h-10 bg-[#F8F8F8] rounded-full flex items-center justify-center mr-2">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="12" cy="12" r="11" stroke="#E4E4E4" strokeWidth="2" />
-                      <circle cx="12" cy="10" r="4" fill="#E4E4E4" />
-                      <path d="M4 19.5C4 15.9101 7.58172 13 12 13C16.4183 13 20 15.9101 20 19.5" stroke="#E4E4E4" strokeWidth="2" />
-                    </svg>
-                  </div>
+                <div className="flex items-center mb-2 gap-4">
+                  <img className='w-12 h-12' src='/images/userimage.svg' alt="userimage" />
                   <div>
                     <p className="text-[#F291D0] font-medium">{comment.user_name}</p>
                     <p className="text-xs text-[#919295]">{comment.create_at}</p>
                   </div>
                 </div>
 
-                <p className="text-[#444444] pl-12">{comment.comment}</p>
+                <p className="text-[#444444] pl-16">{comment.comment}</p>
 
                 {/* 댓글 수정/삭제 버튼 */}
                 <div className="flex justify-end gap-2 mt-3">
                   <button
+                    type='button'
                     className="text-[#F291D0] border border-[#F291D0] rounded-lg px-4 py-1 text-sm"
                     onClick={() => handleEditComment(comment.comment_id)}
                   >
                     수정
                   </button>
                   <button
+                    type='button'
                     className="text-[#F291D0] border border-[#F291D0] rounded-lg px-4 py-1 text-sm"
                     onClick={() => handleDeleteComment(comment.comment_id)}
                   >

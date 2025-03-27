@@ -70,7 +70,7 @@ const LoginForm: React.FC = () => {
           )}
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 flex flex-col items-center">
-            <img className='mx-auto' src='/images/loginlogo.svg' sizes='130' />
+            <img className='mx-auto' src='/images/loginlogo.svg' sizes='130' alt="login" />
             <div className='w-[300px] h-[60px]'>
               <input
                 id="userId"

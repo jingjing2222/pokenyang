@@ -49,7 +49,7 @@ export const EditForm = ({ userId }: EditFormProps) => {
         </div>
 
         <div className="pt-10 flex flex-start gap-4 w-full items-center pl-5">
-          <img src={`/images/myicon.svg`} className="w-20 h-20" alt="프로필 이미지" />
+          <img src={'/images/myicon.svg'} className="w-20 h-20" alt="프로필 이미지" />
           <div className="flex flex-col gap-2 font-extrabold text-lg">
             <div className="text-[#F291D0]">
               {'김아삭'}
@@ -67,7 +67,7 @@ export const EditForm = ({ userId }: EditFormProps) => {
           프로필 수정
         </div>
         <div className="flex flex-col gap-4">
-          <label className="text-[#919295] font-semibold text-lg">닉네임 변경</label>
+          <label htmlFor="nickname" className="text-[#919295] font-semibold text-lg">닉네임 변경</label>
           <div className="relative h-14">
             <input
               {...register("nickname", {
@@ -93,7 +93,7 @@ export const EditForm = ({ userId }: EditFormProps) => {
           )}
         </div>
         <div className="flex flex-col gap-4">
-          <label className="text-[#919295] font-semibold text-lg">프로필 사진 변경</label>
+          <label htmlFor="profile" className="text-[#919295] font-semibold text-lg" >프로필 사진 변경</label>
           <div className="flex items-end gap-4">
             <img src="/images/userimage.svg" className="w-32 h-32" alt="사용자 이미지" />
             <div className="flex gap-2 items-end">
