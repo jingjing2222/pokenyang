@@ -31,7 +31,7 @@ public class UserService {
         }
     }
 
-    public UserBuilderDto registerUser(UserBuilderDto requestDto){
+    public UserBuilderDto registerUser(UserBuilderDto requestDto) {
         User user = User.builder()
                 .password(requestDto.getPassword())
                 .name(requestDto.getName())
@@ -53,5 +53,9 @@ public class UserService {
         return posts.stream()
                 .map(UserGetPostDto::new)
                 .toList();
+    }
+
+    public void removeUser(Integer id) {
+        userInterface.deleteById(id);
     }
 }

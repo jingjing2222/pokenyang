@@ -28,13 +28,18 @@ public class UserController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<UserBuilderDto> register(@RequestBody UserBuilderDto requestDto){
+    public ResponseEntity<UserBuilderDto> register(@RequestBody UserBuilderDto requestDto) {
         return ResponseEntity.ok(userService.registerUser(requestDto));
     }
 
     @GetMapping("/post/{id}")
     public ResponseEntity<List<UserGetPostDto>> getCommentsByUser(@PathVariable(name = "id") Long userId) {
         return ResponseEntity.ok(userService.getPostIdsByUserId(userId));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteMember(@PathVariable(name = "id") Integer id) {
+        userService.removeUser(id);
     }
 
 }
