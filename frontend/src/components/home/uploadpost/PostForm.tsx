@@ -62,7 +62,6 @@ export const PostForm = () => {
       console.log("게시물 등록 완료:", result);
 
       if (imageFile) {
-        // 이미지 업로드 로직은 별도 API 호출 필요
         console.log("이미지 업로드 처리:", imageFile);
       }
 
