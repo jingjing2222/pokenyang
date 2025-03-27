@@ -2,13 +2,13 @@ package asac7.com.PokeNyang.controller;
 
 import asac7.com.PokeNyang.dto.CommentRequestDto;
 import asac7.com.PokeNyang.dto.CommentResponseDto;
+import asac7.com.PokeNyang.dto.PostCommentResponseDto;
 import asac7.com.PokeNyang.service.CommentService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class CommentController {
 
     CommentService commentService;
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<CommentResponseDto> create(@RequestBody CommentRequestDto dto) {
         CommentResponseDto createComment = commentService.insert(dto);
         return ResponseEntity
@@ -47,7 +47,13 @@ public class CommentController {
     }
 
     @GetMapping("/user/{id}")
-    public List<Long> getCommentsByUser(@PathVariable(name = "id") Long userId) {
-        return commentService.getCommentIdsByUserId(userId);
+    public ResponseEntity<?> getCommentsByUser(@PathVariable(name = "id") Long userId) {
+        List<PostCommentResponseDto> commentResponseDtoList = commentService.getCommentsByUserId(userId);
+
+        if (commentResponseDtoList.isEmpty()) {
+            return ResponseEntity.noContent().build();  // 데이터가 없을 경우 204 No Content 반환
+        }
+
+        return ResponseEntity.ok(commentResponseDtoList);  // 정상 응답 (200 OK)
     }
 }

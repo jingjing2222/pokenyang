@@ -2,6 +2,7 @@ package asac7.com.PokeNyang.service;
 
 import asac7.com.PokeNyang.dto.CommentRequestDto;
 import asac7.com.PokeNyang.dto.CommentResponseDto;
+import asac7.com.PokeNyang.dto.PostCommentResponseDto;
 import asac7.com.PokeNyang.entity.Comment;
 import asac7.com.PokeNyang.entity.Post;
 import asac7.com.PokeNyang.entity.User;
@@ -64,8 +65,12 @@ public class CommentService {
     }
 
     @Transactional(readOnly = true)
-    public List<Long> getCommentIdsByUserId(Long userId) {
-        return commentRepository.findCommentIdsByUserId(userId);
+    public List<PostCommentResponseDto> getCommentsByUserId(Long userId) {
+        List<Comment> comments = commentRepository.findCommentIdsByUserId(userId);
+
+        return comments.stream()
+                .map(PostCommentResponseDto::new)
+                .toList();
     }
 }
 

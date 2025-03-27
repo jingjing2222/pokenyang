@@ -32,8 +32,9 @@ public class UserController {
     }
 
     @GetMapping("/post/{id}")
-    public List<Long> getCommentsByUser(@PathVariable(name = "id") Long userId) {
-        return userService.getPostIdsByUserId(userId);
+    public ResponseEntity<List<Long>> getCommentsByUser(@PathVariable(name = "id") Long userId) {
+        return ResponseEntity.ok(userService.getPostIdsByUserId(userId));
+
     }
 
 }
