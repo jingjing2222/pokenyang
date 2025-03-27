@@ -1,3 +1,4 @@
+import MyActivityForm from '@/components/mypage/myactivity/MyActivityForm'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/mypage/$userId')({
@@ -5,5 +6,6 @@ export const Route = createFileRoute('/mypage/$userId')({
 })
 
 function RouteComponent() {
-  return <div>Hello "/mypage/$userId"!</div>
+  const { userId } = Route.useParams()
+  return <MyActivityForm userId={userId} />
 }
