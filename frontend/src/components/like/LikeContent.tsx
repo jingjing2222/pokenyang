@@ -3,7 +3,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { postMockData } from "@/mocks/mockData";
 
 
-const LikeTabContent = ({ userId }: TabContentProps) => {
+const LikeContent = ({ userId }: TabContentProps) => {
   const navigate = useNavigate();
 
   const navigateToPost = (postId: number) => {
@@ -42,4 +42,4 @@ const LikeTabContent = ({ userId }: TabContentProps) => {
   );
 };
 
-export default LikeTabContent;
+export default LikeContent;
