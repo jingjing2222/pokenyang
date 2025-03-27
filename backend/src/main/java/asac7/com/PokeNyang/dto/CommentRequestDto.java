@@ -5,6 +5,7 @@ import asac7.com.PokeNyang.entity.Post;
 import asac7.com.PokeNyang.entity.User;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @Getter
+@NoArgsConstructor(force = true)
 public class CommentRequestDto {
 
     String comment;
