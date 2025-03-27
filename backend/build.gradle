@@ -12,7 +12,13 @@ java {
 		languageVersion = JavaLanguageVersion.of(17)
 	}
 }
+compileJava {
+	options.compilerArgs += ['-parameters', '-Xlint:deprecation']
+}
 
+tasks.withType(JavaCompile) {
+	options.compilerArgs << '-parameters'
+}
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor

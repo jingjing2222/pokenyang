@@ -4,7 +4,12 @@ package asac7.com.PokeNyang.service;
 import asac7.com.PokeNyang.dto.PostDto;
 import asac7.com.PokeNyang.dto.PostRequestDto;
 import asac7.com.PokeNyang.dto.PostResponseDto;
+import asac7.com.PokeNyang.entity.Comment;
+import asac7.com.PokeNyang.entity.Place;
 import asac7.com.PokeNyang.entity.Post;
+import asac7.com.PokeNyang.repository.CommentRepository;
+import asac7.com.PokeNyang.repository.ImageRepository;
+import asac7.com.PokeNyang.repository.PlaceRepository;
 import asac7.com.PokeNyang.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +26,13 @@ public class PostService {
 
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    private CommentRepository commentRepository;
+    @Autowired
+    private PlaceRepository placeRepository;
+    @Autowired
+    private ImageRepository imageRepository;
+
 
     @Transactional
     public PostDto createPost(PostDto requestDto) {
@@ -28,7 +40,11 @@ public class PostService {
                 .title(requestDto.getTitle())
                 .content(requestDto.getContent())
                 .createdAt(LocalDate.now())
+                .xplace(requestDto.getXPlace())
+                .yplace(requestDto.getYPlace())
                 .build();
+
+
 
         Post savedPost = postRepository.save(post);
 
@@ -38,6 +54,8 @@ public class PostService {
                 .content(savedPost.getContent())
                 .createdAt(savedPost.getCreatedAt())
                 .place(savedPost.getPlace())
+                .xPlace(savedPost.getXplace())
+                .yPlace(savedPost.getYplace())
                 .user(savedPost.getUser())
                 .comments(savedPost.getComments())
                 .images(savedPost.getImages())
@@ -56,6 +74,8 @@ public class PostService {
                         .content(post.getContent())
                         .createdAt(post.getCreatedAt())
                         .place(post.getPlace())
+//                        .xPlace(Math.toIntExact(post.getXPlace()))
+//                        .yPlace(Math.toIntExact(post.getYPlace()))
                         .user(post.getUser())
                         .comments(post.getComments())
                         .images(post.getImages())
@@ -70,17 +90,22 @@ public class PostService {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("포스트를 찾을 수 없습니다."));
 
-        return new PostDto(
-                post.getId(),
-                post.getTitle(),
-                post.getContent(),
-                post.getCreatedAt(),
-                post.getPlace(),
-                post.getUser(),
-                post.getComments(),
-                post.getImages(),
-                post.getLikes()
-        );
+        // postId에 해당하는 댓글을 CommentRepository를 통해 가져옵니다.
+        List<Comment> filteredComments = commentRepository.findByPostId(id);
+
+        return PostDto.builder()
+                .id(post.getId())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .createdAt(post.getCreatedAt())
+                .place(post.getPlace())
+//                .xPlace(Math.toIntExact(post.getXPlace()))
+//                .yPlace(Math.toIntExact(post.getYPlace()))
+                .user(post.getUser())
+                .comments(filteredComments)  // 필터링된 댓글 리스트
+                .images(post.getImages())
+                .likes(post.getLikes())
+                .build();
     }
 
 
