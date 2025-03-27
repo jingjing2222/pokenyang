@@ -8,18 +8,23 @@ import asac7.com.PokeNyang.entity.User;
 import asac7.com.PokeNyang.exception.CustomException;
 import asac7.com.PokeNyang.exception.ExceptionType;
 import asac7.com.PokeNyang.repository.CommentInterface;
+import asac7.com.PokeNyang.repository.CommentRepository;
 import asac7.com.PokeNyang.repository.PostInterface;
 import asac7.com.PokeNyang.repository.UserInterface;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class CommentService {
 
+    CommentRepository commentRepository;
     CommentInterface commentInterface;
     PostInterface postInterface;
     UserInterface userInterface;
@@ -56,6 +61,11 @@ public class CommentService {
 
     public void removeComment(Integer id) {
         commentInterface.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Long> getCommentIdsByUserId(Long userId) {
+        return commentRepository.findCommentIdsByUserId(userId);
     }
 }
 

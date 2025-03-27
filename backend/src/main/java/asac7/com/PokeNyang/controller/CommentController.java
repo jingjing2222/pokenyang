@@ -11,9 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-@Controller
+@RestController
 @RequestMapping("/comment")
 public class CommentController {
 
@@ -28,7 +30,7 @@ public class CommentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CommentResponseDto> readComment(@PathVariable Integer id) {
+    public ResponseEntity<CommentResponseDto> readComment(@PathVariable(name = "id") Integer id) {
         CommentResponseDto readComment = commentService.findById(id);
         return ResponseEntity.ok(readComment);
     }
@@ -40,8 +42,12 @@ public class CommentController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteComment(@PathVariable Integer id) {
+    public void deleteComment(@PathVariable(name = "id") Integer id) {
         commentService.removeComment(id);
     }
 
+    @GetMapping("/user/{id}")
+    public List<Long> getCommentsByUser(@PathVariable(name = "id") Long userId) {
+        return commentService.getCommentIdsByUserId(userId);
+    }
 }
