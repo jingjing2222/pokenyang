@@ -12,7 +12,9 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
-import { Route as MainIndexImport } from './routes/main/index'
+import { Route as HomeIndexImport } from './routes/home/index'
+import { Route as HomePostIdImport } from './routes/home/$postId'
+import { Route as HomeUploadpostIndexImport } from './routes/home/uploadpost/index'
 
 // Create/Update Routes
 
@@ -22,9 +24,21 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const MainIndexRoute = MainIndexImport.update({
-  id: '/main/',
-  path: '/main/',
+const HomeIndexRoute = HomeIndexImport.update({
+  id: '/home/',
+  path: '/home/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const HomePostIdRoute = HomePostIdImport.update({
+  id: '/home/$postId',
+  path: '/home/$postId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const HomeUploadpostIndexRoute = HomeUploadpostIndexImport.update({
+  id: '/home/uploadpost/',
+  path: '/home/uploadpost/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -39,11 +53,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/main/': {
-      id: '/main/'
-      path: '/main'
-      fullPath: '/main'
-      preLoaderRoute: typeof MainIndexImport
+    '/home/$postId': {
+      id: '/home/$postId'
+      path: '/home/$postId'
+      fullPath: '/home/$postId'
+      preLoaderRoute: typeof HomePostIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/home/': {
+      id: '/home/'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof HomeIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/home/uploadpost/': {
+      id: '/home/uploadpost/'
+      path: '/home/uploadpost'
+      fullPath: '/home/uploadpost'
+      preLoaderRoute: typeof HomeUploadpostIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -53,37 +81,47 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/main': typeof MainIndexRoute
+  '/home/$postId': typeof HomePostIdRoute
+  '/home': typeof HomeIndexRoute
+  '/home/uploadpost': typeof HomeUploadpostIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/main': typeof MainIndexRoute
+  '/home/$postId': typeof HomePostIdRoute
+  '/home': typeof HomeIndexRoute
+  '/home/uploadpost': typeof HomeUploadpostIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/main/': typeof MainIndexRoute
+  '/home/$postId': typeof HomePostIdRoute
+  '/home/': typeof HomeIndexRoute
+  '/home/uploadpost/': typeof HomeUploadpostIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/main'
+  fullPaths: '/' | '/home/$postId' | '/home' | '/home/uploadpost'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/main'
-  id: '__root__' | '/' | '/main/'
+  to: '/' | '/home/$postId' | '/home' | '/home/uploadpost'
+  id: '__root__' | '/' | '/home/$postId' | '/home/' | '/home/uploadpost/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  MainIndexRoute: typeof MainIndexRoute
+  HomePostIdRoute: typeof HomePostIdRoute
+  HomeIndexRoute: typeof HomeIndexRoute
+  HomeUploadpostIndexRoute: typeof HomeUploadpostIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  MainIndexRoute: MainIndexRoute,
+  HomePostIdRoute: HomePostIdRoute,
+  HomeIndexRoute: HomeIndexRoute,
+  HomeUploadpostIndexRoute: HomeUploadpostIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -97,14 +135,22 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/main/"
+        "/home/$postId",
+        "/home/",
+        "/home/uploadpost/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/main/": {
-      "filePath": "main/index.tsx"
+    "/home/$postId": {
+      "filePath": "home/$postId.tsx"
+    },
+    "/home/": {
+      "filePath": "home/index.tsx"
+    },
+    "/home/uploadpost/": {
+      "filePath": "home/uploadpost/index.tsx"
     }
   }
 }
