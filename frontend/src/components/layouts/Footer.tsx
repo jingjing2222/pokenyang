@@ -24,7 +24,7 @@ export const Footer = () => {
   }, []);
 
   const handleLink = (link: string) => {
-    if ((link === 'mypage' || link === 'bookmark') && userData) {
+    if ((link === 'mypage' || link === 'like') && userData) {
       navigate({ to: `/${link}/${userData.userId}` })
     } else {
       navigate({ to: `/${link}` })
@@ -33,8 +33,8 @@ export const Footer = () => {
 
   const getImageSrc = (type: string) => {
     switch (type) {
-      case 'bookmark':
-        return currentPath.includes('/bookmark') ? "/images/selectedbookmark.svg" : "/images/footbookmark.svg";
+      case 'like':
+        return currentPath.includes('/like') ? "/images/selectedlike.svg" : "/images/like.svg";
       case 'home':
         return currentPath === '/home' ? "/images/selectedhome.svg" : "/images/home.svg";
       case 'mypage':
@@ -46,7 +46,7 @@ export const Footer = () => {
 
   return <footer className="w-[478px] h-[117px] bg-white flex justify-evenly items-center border-t border-[#D9D9D9]">
     <div>
-      <img className="cursor-pointer" src={getImageSrc('bookmark')} alt="footbookmark" onClick={() => { handleLink('bookmark') }} />
+      <img className="cursor-pointer" src={getImageSrc('like')} alt="footlike" onClick={() => { handleLink('like') }} />
     </div>
     <div>
       <img className="cursor-pointer" src={getImageSrc('home')} alt="home" onClick={() => { handleLink('home') }} />

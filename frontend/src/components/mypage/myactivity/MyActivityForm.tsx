@@ -1,5 +1,4 @@
 import CommentTabContent from "@/components/mypage/myactivity/CommentTabContent";
-import LikeTabContent from "@/components/mypage/myactivity/LikeTabContent";
 import PostTabContent from "@/components/mypage/myactivity/PostTabContent";
 import { useState } from "react";
 
@@ -12,7 +11,7 @@ export interface TabContentProps {
 }
 
 export const MyActivityForm = ({ userId }: MyActivityFormProps) => {
-  const [currentTab, setCurrentTab] = useState<'post' | 'like' | 'comment'>('post');
+  const [currentTab, setCurrentTab] = useState<'post' | 'comment'>('post');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
 
@@ -24,8 +23,6 @@ export const MyActivityForm = ({ userId }: MyActivityFormProps) => {
     switch (currentTab) {
       case 'post':
         return <PostTabContent userId={userId} />;
-      case 'like':
-        return <LikeTabContent userId={userId} />;
       case 'comment':
         return <CommentTabContent userId={userId} />;
       default:
@@ -66,15 +63,6 @@ export const MyActivityForm = ({ userId }: MyActivityFormProps) => {
           onClick={() => setCurrentTab('post')}
         >
           게시물
-        </div>
-        <div
-          className={`py-3 px-6 cursor-pointer text-center w-1/3 ${currentTab === 'like'
-            ? 'text-[#F291D0] font-bold border-b-2 border-[#F291D0]'
-            : 'text-[#919295]'
-            }`}
-          onClick={() => setCurrentTab('like')}
-        >
-          좋아요
         </div>
         <div
           className={`py-3 px-6 cursor-pointer text-center w-1/3 ${currentTab === 'comment'

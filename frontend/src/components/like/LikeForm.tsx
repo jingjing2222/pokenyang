@@ -1,11 +1,11 @@
-import BookmarkContent from "@/components/bookmark/BookmarkContent";
+import LikeContent from "@/components/like/LikeContent";
 import { useState } from "react";
 
 export interface BookmarkFromProps {
   userId: string
 }
 
-export const BookmarkForm = ({ userId }: BookmarkFromProps) => {
+export const LikeForm = ({ userId }: BookmarkFromProps) => {
 
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const toggleSortOrder = () => {
@@ -28,19 +28,7 @@ export const BookmarkForm = ({ userId }: BookmarkFromProps) => {
             onClick={handleCancel}
           />
           <div className="text-[#444444] text-lg font-semibold">
-            북마크
-          </div>
-        </div>
-
-        <div className="pt-10 flex flex-start gap-4 w-full items-center pl-5">
-          <img src='/images/userimage.svg' className="w-20 h-20" alt="프로필 이미지" />
-          <div className="flex flex-col gap-2 font-extrabold text-lg">
-            <div className="text-[#F291D0]">
-              {'김아삭'}
-            </div>
-            <div className="text-lg text-[#919295] font-medium">
-              {userId}
-            </div>
+            좋아요
           </div>
         </div>
       </div>
@@ -63,11 +51,11 @@ export const BookmarkForm = ({ userId }: BookmarkFromProps) => {
 
       {/* 콘텐츠 */}
       <main className="mt-6 p-4">
-        <BookmarkContent userId={userId} />
+        <LikeContent userId={userId} />
       </main>
     </form>
   );
 };
 
-export default BookmarkForm;
+export default LikeForm;
 

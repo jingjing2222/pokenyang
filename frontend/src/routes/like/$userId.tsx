@@ -1,7 +1,7 @@
-import BookmarkForm from '@/components/bookmark/BookmarkForm'
+import BookmarkForm from '@/components/like/LikeForm'
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/bookmark/$userId')({
+export const Route = createFileRoute('/like/$userId')({
   component: RouteComponent,
 })
 
