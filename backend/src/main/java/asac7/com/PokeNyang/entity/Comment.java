@@ -8,7 +8,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+
 import java.time.LocalDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,4 +41,8 @@ public class Comment {
 	@ManyToOne
 	@JoinColumn(name = "post_id", nullable = false)
 	private Post post;
+
+	public Comment updateComment(String comment) {
+		return new Comment(null, comment, LocalDate.now(), user, post);
+	}
 }
