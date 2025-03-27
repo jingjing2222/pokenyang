@@ -24,7 +24,7 @@ export const MyActivityForm = ({ userId }: MyActivityFormProps) => {
       case 'post':
         return <PostTabContent userId={userId} />;
       case 'comment':
-        return <CommentTabContent />;
+        return <CommentTabContent userId={userId}/>;
       default:
         return null;
     }
