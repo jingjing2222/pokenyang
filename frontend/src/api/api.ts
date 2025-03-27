@@ -297,3 +297,24 @@ export const CreateComment = async ({comment, userId, postId}:CreateCommentProps
     throw error;
   }
 };
+
+export const deleteUser = async (userId:number) => {
+  try {
+    const response = await fetch(`http://localhost:8080/users/delete/${userId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error posting user data:', error);
+    throw error;
+  }
+};
