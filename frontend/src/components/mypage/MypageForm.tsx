@@ -29,9 +29,10 @@ export const MypageForm = () => {
     navigate({ to: '/' });
   };
 
+
+
   return (
     <form className="flex flex-col mt-12 border-[#D9D9D9]">
-
       {/* 헤더 */}
       <div className="relative flex flex-col items-center justify-center border-b py-4 border-[#D9D9D9] text-xl font-medium">
         <div>
@@ -45,6 +46,7 @@ export const MypageForm = () => {
             마이페이지
           </div>
         </div>
+
         <div className="pt-10 flex flex-start gap-4 w-full items-center pl-5">
           <img src={`/images/myicon.svg`} className="w-20 h-20" alt="프로필 이미지" />
           <div className="flex flex-col gap-2 font-extrabold text-lg">
@@ -58,8 +60,9 @@ export const MypageForm = () => {
         </div>
       </div>
 
+
       {/* 컨텐츠 */}
-      <main className="w-[380px] mx-auto mt-10 flex flex-col gap-8">
+      <main className="w-[380px] mx-auto mt-6 flex flex-col gap-8">
         <FormItem
           icon="myactivity"
           text="나의 활동"

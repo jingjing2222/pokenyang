@@ -1,5 +1,6 @@
 import { postMockData } from "@/mocks/mockData"
 import { useNavigate } from "@tanstack/react-router"
+import { useState } from "react"
 
 export interface PostIdFormProps {
   postId: string
@@ -8,12 +9,18 @@ export interface PostIdFormProps {
 export const PostIdForm = ({ postId }: PostIdFormProps) => {
   const post = postMockData.find((e) => e.post_id === parseInt(postId))
   const navigate = useNavigate()
+  const [isShare, setIsShare] = useState(false)
 
   const handleCancle = () => {
     navigate({ to: '/home' })
   }
   const handleComment = () => {
     navigate({ to: `/home/${postId}/comment` })
+  }
+
+  const handleShare = () => {
+    navigator.clipboard.writeText(window.location.href)
+    setIsShare(true)
   }
 
   if (!post) {
@@ -37,7 +44,7 @@ export const PostIdForm = ({ postId }: PostIdFormProps) => {
 
     {/* 작성자 내용 */}
     <div className="flex flex-start gap-2 items-center pt-2">
-      <img src={`/${post.author_image}`} className="w-9 h-9" />
+      <img src={`${post.author_image}`} className="w-9 h-9" />
       <div className="flex flex-col">
         <div className="text-[#F291D0]">
           {post.author}
@@ -53,22 +60,28 @@ export const PostIdForm = ({ postId }: PostIdFormProps) => {
       <div className="text-2xl font-semibold">
         {post.title}
       </div>{post.image.map((img, index) =>
-        <img src={`/${img}`} alt={`img ${index + 1}`} />)}
+        <img src={`${img}`} alt={`img ${index + 1}`} />)}
       <div className="pt-6">{post.content}</div>
     </div>
 
     {/* 좋댓구알 */}
-    <div className="p-4 flex flex-grow border-[#D9D9D9] border-b pb-6 justify-between">
+    <div className="relative p-4 flex flex-grow border-[#D9D9D9] border-b pb-6 justify-between">
       <div className="flex gap-4 items-center">
         <img className="cursor-pointer" src="/images/heart.svg" />
         <img onClick={handleComment}
           className="cursor-pointer" src="/images/comment.svg" />
-        <img className="cursor-pointer" src="/images/share.svg" />
+        <img
+          onClick={handleShare}
+          className="cursor-pointer" src="/images/share.svg" />
       </div>
       <div>
-        <img className="cursor-pointer" src="/images/bookmark.svg" />
+        <img
+          className="cursor-pointer" src="/images/bookmark.svg" />
       </div>
+      {isShare && <div className="absolute bottom-0 left-24 text-[#111111]">복사 완료</div>}
+
     </div>
+
 
     {/* 댓글 */}
     <div className="pl-2">
@@ -81,7 +94,7 @@ export const PostIdForm = ({ postId }: PostIdFormProps) => {
             <img src={`/images/exauimage.png`} className="w-9 h-9" alt="프로필 이미지" />
             <div className="flex flex-col">
               <div className="text-[#F291D0]">
-                {comment.user_id}
+                {comment.user_name}
               </div>
               <div className="text-sm text-gray-500">
                 {comment.comment}

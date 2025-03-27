@@ -13,6 +13,8 @@ export interface TabContentProps {
 
 export const MyActivityForm = ({ userId }: MyActivityFormProps) => {
   const [currentTab, setCurrentTab] = useState<'post' | 'like' | 'comment'>('post');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+
 
   const handleCancel = () => {
     window.history.back();
@@ -31,6 +33,10 @@ export const MyActivityForm = ({ userId }: MyActivityFormProps) => {
     }
   };
 
+  const toggleSortOrder = () => {
+    setSortOrder(prevOrder => prevOrder === 'asc' ? 'desc' : 'asc');
+  };
+
   return (
     <form className="flex flex-col mt-12 border-[#D9D9D9]">
       {/* 헤더 */}
@@ -47,6 +53,8 @@ export const MyActivityForm = ({ userId }: MyActivityFormProps) => {
           </div>
         </div>
       </div>
+
+
 
       {/* 탭 */}
       <div className="flex justify-evenly border-b border-[#D9D9D9] mt-4">
@@ -76,6 +84,22 @@ export const MyActivityForm = ({ userId }: MyActivityFormProps) => {
           onClick={() => setCurrentTab('comment')}
         >
           댓글
+        </div>
+      </div>
+
+      {/* 정렬 */}
+      <div className="w-[380px] mx-auto mt-4 flex justify-start">
+        <div
+          className="flex items-center gap-1 text-[#919295] cursor-pointer"
+          onClick={toggleSortOrder}
+        >
+          <span className="text-sm font-medium">등록순</span>
+          <img
+            src="/images/sort_desc.svg"
+            className={`w-4 h-4 ${sortOrder === 'asc' ? 'rotate-180' : ''}`}
+            alt={sortOrder === 'asc' ? '오름차순' : '내림차순'}
+            style={{ transition: 'transform 0.2s ease' }}
+          />
         </div>
       </div>
 
