@@ -58,3 +58,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+@keyframes spin {
+  100%
+  {
+    transform: rotate(360deg);
+  }
+}
