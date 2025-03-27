@@ -161,7 +161,6 @@ export const fetchUserPosts = async () => {
 
 
     const data: PostsResponse = await response.json();
-    console.table(data)
     return data;
   } catch (error) {
     console.error('댓글 정보를 가져오는 중 오류가 발생했습니다:', error);
@@ -218,6 +217,80 @@ export const PostUserPost = async ({title, content, lat, lng}: PostUserPostProps
     }
 
     const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error posting user data:', error);
+    throw error;
+  }
+};
+
+export interface PostImage {
+  id: number;
+  url: string;
+}
+
+export interface FetchUserMatchPostResponse {
+  id: number;
+  title: string;
+  content: string;
+  createdAt: string;
+  images: PostImage[];
+}
+
+export const fetchUserMatchPost = async (userId: number): Promise<FetchUserMatchPostResponse[]> => {
+  try {
+    const response = await fetch(`http://localhost:8080/users/post/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data: FetchUserMatchPostResponse[] = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching user posts:', error);
+    throw error;
+  }
+};
+
+export interface CreateCommentProps{
+  comment:string;
+  userId:number;
+  postId:number;
+}
+
+export interface CreateCommentReponse {
+  id: number;
+  comment: string;
+  createdAt: string;
+  user: number;
+  post: number;
+}
+
+export const CreateComment = async ({comment, userId, postId}:CreateCommentProps ) => {
+  try {
+    const response = await fetch(`http://localhost:8080/comment`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        comment,
+        userId,
+        postId,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data:CreateCommentReponse = await response.json();
     return data;
   } catch (error) {
     console.error('Error posting user data:', error);
