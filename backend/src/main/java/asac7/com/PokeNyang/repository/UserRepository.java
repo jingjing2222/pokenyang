@@ -3,6 +3,7 @@ package asac7.com.PokeNyang.repository;
 import asac7.com.PokeNyang.entity.Post;
 import asac7.com.PokeNyang.entity.User;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
@@ -17,13 +18,14 @@ public class UserRepository {
 
     public User loginUser(String email, String password) {
         try {
-            User userLogin = em.createQuery("SELECT u FROM User u WHERE u.email = :email AND u.password = :password", User.class)
+            return em.createQuery("SELECT u FROM User u WHERE u.email = :email AND u.password = :password", User.class)
                     .setParameter("email", email)
                     .setParameter("password", password)
                     .getSingleResult();
-            return userLogin;
-
-        } catch (EmptyResultDataAccessException e) {
+        } catch (NoResultException e) {
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
