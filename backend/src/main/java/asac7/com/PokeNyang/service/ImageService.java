@@ -3,6 +3,7 @@ package asac7.com.PokeNyang.service;
 import asac7.com.PokeNyang.entity.Image;
 import asac7.com.PokeNyang.entity.Post;
 import asac7.com.PokeNyang.repository.ImageRepository;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class ImageService {
 
     private ImageRepository imageRepository;
