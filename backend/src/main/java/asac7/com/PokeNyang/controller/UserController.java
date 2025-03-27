@@ -15,38 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
-
-    @ResponseBody
-    @RequestMapping(value = "/retrive/all", method = RequestMethod.GET)
-    public ResponseEntity<List<UserResponseDto>> retriveAllUser() {
-        List<UserResponseDto> users = userService.findAllUser();
-        return ResponseEntity.ok(users);
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/retrive/user", method = RequestMethod.GET)
-    public ResponseEntity<UserResponseDto> retriveUser(@RequestBody UserRequestDto request) {
-        UserResponseDto user = userService.findByUser(request);
-        return ResponseEntity.ok(user);
-    }
-
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity<UserResponseDto> createUser(@RequestBody UserRequestDto request) {
-        UserResponseDto createdUser = userService.createUser(request);
-        return ResponseEntity.ok(createdUser);
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<UserResponseDto> loginUser(@RequestBody UserResponseDto request) {
-        UserResponseDto createdUser = userService.loginUser(request);
-        return ResponseEntity.ok(createdUser);
-    }
 
 
 }
