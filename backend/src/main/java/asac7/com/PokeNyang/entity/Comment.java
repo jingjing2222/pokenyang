@@ -1,5 +1,6 @@
 package asac7.com.PokeNyang.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,10 +35,12 @@ public class Comment {
 	@Column(name = "create_at")
 	private LocalDate createdAt;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "post_id", nullable = false)
 	private Post post;

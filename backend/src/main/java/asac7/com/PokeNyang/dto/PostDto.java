@@ -19,6 +19,8 @@ public class PostDto {
     private String content;
     private LocalDate createdAt;
     private Place place;
+    private Double lng;
+    private Double lat;
     private User user;
     private List<Comment> comments;
     private List<Image> images;

@@ -32,7 +32,8 @@ public class Post {
 
 	private String title;
 	private String content;
-
+	private Double lng;
+	private Double lat;
 	@Column(name = "create_at")
 	private LocalDate createdAt;
 
