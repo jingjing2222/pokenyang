@@ -1,5 +1,6 @@
 package asac7.com.PokeNyang.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,10 +13,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 
 @Entity
 @Table(name = "post_table")
@@ -23,6 +22,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Post {
 
 	@Id
@@ -37,14 +37,17 @@ public class Post {
 	private LocalDate createdAt;
 
 	@ManyToOne
-	@JoinColumn(name = "place_id", nullable = false)
+	@JoinColumn(name = "place_id", nullable = true)
+	@JsonIgnore // 순환 참조 방지
 	private Place place;
 
 	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false)
+	@JoinColumn(name = "user_id", nullable = true)
+	@JsonIgnore // 순환 참조 방지
 	private User user;
 
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+	@JsonIgnore // 순환 참조 방지
 	private List<Comment> comments;
 
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)

@@ -1,4 +1,4 @@
 package asac7.com.PokeNyang.repository;
 
-public interface UserRepository {
+public interface CommentRepository {
 }
