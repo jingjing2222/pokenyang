@@ -91,7 +91,7 @@ export const PostIdForm = ({ postId }: PostIdFormProps) => {
       <div className="flex flex-col gap-2">
         {post.comment.map((comment, index) => (
           <div key={index} className="flex flex-start gap-2 items-center">
-            <img src={`/images/exauimage.png`} className="w-9 h-9" alt="프로필 이미지" />
+            <img src={`/images/userimage.svg`} className="w-9 h-9" alt="프로필 이미지" />
             <div className="flex flex-col">
               <div className="text-[#F291D0]">
                 {comment.user_name}

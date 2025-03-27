@@ -26,7 +26,7 @@ export const postMockData:PostMockData[]=[{
   date:'2024.06.22 PM 12:30',
   author:'김아삭김아삭',
   image:['/images/excat.png'],
-  author_image:'/images/exauimage.png',
+  author_image:'/images/userimage.svg',
   comment:[{comment_id:1,comment:'wow~',create_at:'2024.06.22 PM 12:30',user_name:'김아삭',user_id:'김아삭김아삭',post_id:1},]
 }
 ]
