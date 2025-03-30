@@ -8,7 +8,6 @@ import asac7.com.PokeNyang.dto.PostResponseDto;
 import asac7.com.PokeNyang.entity.Comment;
 import asac7.com.PokeNyang.entity.Post;
 import asac7.com.PokeNyang.repository.CommentInterface;
-import asac7.com.PokeNyang.repository.CommentRepository;
 import asac7.com.PokeNyang.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,8 +98,6 @@ public class PostService {
                 .likes(post.getLikes())
                 .build();
     }
-
-
 
 
     @Transactional

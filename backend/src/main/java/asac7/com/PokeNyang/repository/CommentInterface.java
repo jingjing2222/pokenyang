@@ -9,4 +9,6 @@ public interface CommentInterface extends JpaRepository<Comment, Integer> {
     Comment save(Comment entity);
 
     List<Comment> findByPostId(Long id);
+
+    List<Comment> findByUserId(Long id);
 }

@@ -25,27 +25,27 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Comment {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "comment_id")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_id")
+    private Long id;
 
-	private String comment;
+    private String comment;
 
-	@Column(name = "create_at")
-	private LocalDate createdAt;
+    @Column(name = "create_at")
+    private LocalDate createdAt;
 
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false)
-	private User user;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name = "post_id", nullable = false)
-	private Post post;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
 
-	public Comment updateComment(String comment) {
-		return new Comment(null, comment, LocalDate.now(), user, post);
-	}
+    public Comment updateComment(String comment) {
+        return new Comment(this.id, comment, LocalDate.now(), user, post);
+    }
 }

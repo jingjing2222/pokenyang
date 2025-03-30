@@ -9,7 +9,6 @@ import asac7.com.PokeNyang.entity.User;
 import asac7.com.PokeNyang.exception.CustomException;
 import asac7.com.PokeNyang.exception.ExceptionType;
 import asac7.com.PokeNyang.repository.CommentInterface;
-import asac7.com.PokeNyang.repository.CommentRepository;
 import asac7.com.PokeNyang.repository.PostInterface;
 import asac7.com.PokeNyang.repository.UserInterface;
 import lombok.AccessLevel;
@@ -25,7 +24,6 @@ import java.util.List;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class CommentService {
 
-    CommentRepository commentRepository;
     CommentInterface commentInterface;
     PostInterface postInterface;
     UserInterface userInterface;
@@ -64,9 +62,17 @@ public class CommentService {
         commentInterface.deleteById(id);
     }
 
-    @Transactional(readOnly = true)
-    public List<PostCommentResponseDto> getCommentsByUserId(Long userId) {
-        List<Comment> comments = commentRepository.findCommentIdsByUserId(userId);
+//    @Transactional(readOnly = true)
+//    public List<PostCommentResponseDto> getCommentsByUserId(Long userId) {
+//        List<Comment> comments = commentRepository.findCommentIdsByUserId(userId);
+//
+//        return comments.stream()
+//                .map(PostCommentResponseDto::new)
+//                .toList();
+//    }
+
+    public List<PostCommentResponseDto> findByUserId(Long id) {
+        List<Comment> comments = commentInterface.findByUserId(id);
 
         return comments.stream()
                 .map(PostCommentResponseDto::new)

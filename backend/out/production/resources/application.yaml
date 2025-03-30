@@ -13,9 +13,7 @@ spring:
     url: jdbc:mysql://localhost:33066/pokenyang
     username: root
     password: root
-springdoc:
-  api-docs:
-    path: /v1/api-docs
+
   jpa:
     database: mysql
     hibernate:
@@ -24,3 +22,7 @@ springdoc:
     properties:
       hibernate:
         format_sql: true
+
+springdoc:
+  api-docs:
+    path: /v1/api-docs

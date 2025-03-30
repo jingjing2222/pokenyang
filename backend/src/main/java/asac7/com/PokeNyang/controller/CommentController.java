@@ -36,7 +36,7 @@ public class CommentController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<CommentResponseDto> updateComment(@RequestBody CommentRequestDto dto, @PathVariable Integer id) {
+    public ResponseEntity<CommentResponseDto> updateComment(@RequestBody CommentRequestDto dto, @PathVariable(name = "id") Integer id) {
         CommentResponseDto updateComment = commentService.updateComment(dto, id);
         return ResponseEntity.ok(updateComment);
     }
@@ -48,12 +48,11 @@ public class CommentController {
 
     @GetMapping("/user/{id}")
     public ResponseEntity<?> getCommentsByUser(@PathVariable(name = "id") Long userId) {
-        List<PostCommentResponseDto> commentResponseDtoList = commentService.getCommentsByUserId(userId);
+        List<PostCommentResponseDto> commentResponseDtoList = commentService.findByUserId(userId);
 
         if (commentResponseDtoList.isEmpty()) {
-            return ResponseEntity.noContent().build();  // 데이터가 없을 경우 204 No Content 반환
+            return ResponseEntity.noContent().build();
         }
-
-        return ResponseEntity.ok(commentResponseDtoList);  // 정상 응답 (200 OK)
+        return ResponseEntity.ok(commentResponseDtoList);
     }
 }

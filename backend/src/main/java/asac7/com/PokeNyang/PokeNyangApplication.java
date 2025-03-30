@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class PokeNyangApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(PokeNyangApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(PokeNyangApplication.class, args);
+    }
 
 }
