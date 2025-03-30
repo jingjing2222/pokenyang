@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,34 +28,45 @@ public class ImageController {
 
 
     @GetMapping("/{fileName:.+}")
-    public ResponseEntity<byte[]> getUploadImage(@PathVariable(name="/{fileName:.+}") String fileName) {
+    public ResponseEntity<byte[]> getUploadImage(@PathVariable(name = "fileName") String fileName) {
         try {
-            // 파일 경로 설정
-            Path filePath = Paths.get(UPLOAD_DIR + File.separator + fileName).toAbsolutePath().normalize();
+            // OS 호환성을 위한 파일 경로 설정
+            Path filePath = Paths.get(UPLOAD_DIR).resolve(fileName).toAbsolutePath().normalize();
             Resource resource = new UrlResource(filePath.toUri());
 
             // 파일 존재 여부 확인
-            if (resource.exists()) {
-                // 이미지 파일을 바이트 배열로 읽어옴
-                byte[] imageBytes = Files.readAllBytes(filePath);
-
-                // Content-Type 설정
-                String contentType = Files.probeContentType(filePath);
-                if (contentType == null) {
-                    contentType = "application/octet-stream";
-                }
-
-                return ResponseEntity.ok()
-                        .contentType(MediaType.parseMediaType(contentType))
-                        .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
-                        .body(imageBytes);
-            } else {
+            if (!resource.exists()) {
+                System.out.println("파일을 찾을 수 없습니다: " + filePath);
                 return ResponseEntity.notFound().build();
             }
+
+            // 파일 읽기 권한 확인
+            if (!Files.isReadable(filePath)) {
+                System.out.println("파일 읽기 권한이 없습니다: " + filePath);
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
+
+            // 파일 읽기
+            byte[] imageBytes = Files.readAllBytes(filePath);
+            String contentType = Files.probeContentType(filePath);
+
+            // MIME 타입이 감지되지 않으면 기본값 설정
+            if (contentType == null) {
+                contentType = "image/jpeg";
+            }
+
+            return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
+                .body(imageBytes);
+
         } catch (IOException e) {
-            return ResponseEntity.badRequest().build();
+            System.out.println("파일 로드 중 오류 발생: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+
 
     @GetMapping("/profileImage/{fileName:.+}")
     public ResponseEntity<byte[]> getProfileImage(@PathVariable String fileName) {
