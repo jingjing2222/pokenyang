@@ -1,6 +1,7 @@
 package asac7.com.PokeNyang.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,7 +25,7 @@ public class Image {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "image_id")
 	private long id;
-
+	@JsonIgnore
 	@JoinColumn(name = "post_id")
 	@ManyToOne
 	@JsonBackReference //순환참조 방지

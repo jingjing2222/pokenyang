@@ -1,5 +1,6 @@
 package asac7.com.PokeNyang.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,7 +30,7 @@ public class Place {
 
 	private Integer x;
 	private Integer y;
-
+	@JsonIgnore
 	@OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
 	private List<Post> posts;
 }
