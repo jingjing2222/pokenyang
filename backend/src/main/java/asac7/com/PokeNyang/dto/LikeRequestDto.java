@@ -11,7 +11,7 @@ import lombok.experimental.FieldDefaults;
 
 @Getter
 @RequiredArgsConstructor
-@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class LikeRequestDto {
 
     private Integer postId;

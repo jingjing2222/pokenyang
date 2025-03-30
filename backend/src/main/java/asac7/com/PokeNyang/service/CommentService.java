@@ -15,7 +15,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -61,15 +60,6 @@ public class CommentService {
     public void removeComment(Integer id) {
         commentInterface.deleteById(id);
     }
-
-//    @Transactional(readOnly = true)
-//    public List<PostCommentResponseDto> getCommentsByUserId(Long userId) {
-//        List<Comment> comments = commentRepository.findCommentIdsByUserId(userId);
-//
-//        return comments.stream()
-//                .map(PostCommentResponseDto::new)
-//                .toList();
-//    }
 
     public List<PostCommentResponseDto> findByUserId(Long id) {
         List<Comment> comments = commentInterface.findByUserId(id);
