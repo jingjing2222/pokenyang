@@ -2,6 +2,7 @@ import type { UserData } from "@/components/home/postid/comment/UploadComment";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import FormItem from "@/components/mypage/FormItem";
+import { deleteUser } from "@/api/api";
 
 export const MypageForm = () => {
   const navigate = useNavigate();
@@ -24,8 +25,9 @@ export const MypageForm = () => {
     window.history.back();
   };
 
-  const handleDeleteUser = () => {
-    console.log('delete');
+  const handleDeleteUser = async () => {
+    if (!userData) return
+    await deleteUser(parseInt(userData.userId))
     navigate({ to: '/' });
   };
 
@@ -54,7 +56,7 @@ export const MypageForm = () => {
               {'김아삭'}
             </div>
             <div className="text-lg text-[#919295] font-medium">
-              {userData?.userId}
+              {userData?.email}
             </div>
           </div>
         </div>

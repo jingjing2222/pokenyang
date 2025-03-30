@@ -4,6 +4,7 @@ import { useNavigate } from "@tanstack/react-router";
 import ImageUpload from "@/components/home/uploadpost/ImageUpload";
 import { useGeoLocation } from "@/hooks/useGeoLocation";
 import type { UserData } from "@/components/home/postid/comment/UploadComment";
+import { PostUserPost } from "@/api/api";
 
 interface PostFormData {
   title: string;
@@ -16,7 +17,7 @@ export const PostForm = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { location, error } = useGeoLocation();
   const [userData, setUserData] = useState<UserData | null>(null);
-
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   useEffect(() => {
     const storedUserData = localStorage.getItem("user");
@@ -37,16 +38,40 @@ export const PostForm = () => {
     navigate({ to: '..' });
   };
 
-  const onSubmit = (data: PostFormData) => {
+  const onSubmit = async (data: PostFormData) => {
+    if (!userData?.userId) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
 
-    console.log("제출된 데이터:", {
-      ...data,
-      imageFile: imageFile,
-      location: location,
-      userId: userData?.userId,
-    });
+    if (error) {
+      alert("위치 정보를 가져오는데 실패했습니다. 다시 시도해주세요.");
+      return;
+    }
 
-    navigate({ to: '/home' });
+    setIsSubmitting(true);
+
+    try {
+      const result = await PostUserPost({
+        title: data.title,
+        content: data.content,
+        lat: location.lat,
+        lng: location.lng
+      });
+
+      console.log("게시물 등록 완료:", result);
+
+      if (imageFile) {
+        console.log("이미지 업로드 처리:", imageFile);
+      }
+
+      navigate({ to: '/home' });
+    } catch (error) {
+      console.error("게시물 등록 중 오류 발생:", error);
+      alert("게시물 등록에 실패했습니다. 다시 시도해주세요.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleImageUpload = (file: File | null, preview: string | null) => {
@@ -68,9 +93,10 @@ export const PostForm = () => {
         </div>
         <button
           type="submit"
-          className="text-lg text-[#F291D0] cursor-pointer bg-transparent border-0"
+          className={`text-lg text-[#F291D0] cursor-pointer bg-transparent border-0 ${isSubmitting ? 'opacity-50' : ''}`}
+          disabled={isSubmitting}
         >
-          등록
+          {isSubmitting ? '등록 중...' : '등록'}
         </button>
       </div>
 
@@ -78,6 +104,7 @@ export const PostForm = () => {
         {...register("title", { required: "제목을 입력해주세요" })}
         className="border-1 outline-none p-2 border-[#D9D9D9] m-4 rounded-md"
         placeholder="제목을 입력해주세요"
+        disabled={isSubmitting}
       />
       {errors.title && (
         <span className="text-red-500 px-4 -mt-2 text-sm">{errors.title.message}</span>
@@ -87,7 +114,8 @@ export const PostForm = () => {
         <textarea
           {...register("content", { required: "내용을 입력해주세요" })}
           className="w-full flex-grow border-b outline-none resize-none p-2 border-[#D9D9D9]"
-          placeholder="작성내용은 쏼라 어쩔"
+          placeholder="내용을 입력해주세요"
+          disabled={isSubmitting}
         />
         {errors.content && (
           <span className="text-red-500 px-2 text-sm">{errors.content.message}</span>

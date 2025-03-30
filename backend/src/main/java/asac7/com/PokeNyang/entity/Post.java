@@ -50,10 +50,10 @@ public class Post {
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
 	@JsonIgnore // 순환 참조 방지
 	private List<Comment> comments;
-
+	@JsonIgnore
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
 	private List<Image> images;
-
+	@JsonIgnore
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
 	private List<Like> likes;
 }

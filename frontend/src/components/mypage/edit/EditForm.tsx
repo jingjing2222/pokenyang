@@ -1,15 +1,33 @@
 import { useForm } from "react-hook-form";
+import { useState, useEffect } from "react";
 
 export interface EditFormProps {
   userId: string
 }
 
+interface UserData {
+  userId: string;
+  email: string;
+  isLoggedIn: boolean;
+  loginTime: string;
+}
+
 export const EditForm = ({ userId }: EditFormProps) => {
+  const [userData, setUserData] = useState<UserData | null>(null);
+
   const { register, handleSubmit, watch, formState: { errors } } = useForm({
     defaultValues: {
       nickname: ""
     }
   });
+
+  useEffect(() => {
+    const storedUserData = localStorage.getItem("user");
+    if (storedUserData) {
+      const parsedUserData = JSON.parse(storedUserData);
+      setUserData(parsedUserData);
+    }
+  }, []);
 
   const handleCancel = () => {
     window.history.back();
@@ -55,7 +73,7 @@ export const EditForm = ({ userId }: EditFormProps) => {
               {'김아삭'}
             </div>
             <div className="text-lg text-[#919295] font-medium">
-              {userId}
+              {userData?.email || userId}
             </div>
           </div>
         </div>
