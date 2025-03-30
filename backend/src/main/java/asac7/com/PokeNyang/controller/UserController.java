@@ -25,8 +25,7 @@ public class UserController {
         UserLoginResponseDto isLogin = userService.isLogin(dto.getEmail(), dto.getPassword());
         return isLogin;
     }
-
-
+    
     @PostMapping("/register")
     public ResponseEntity<UserBuilderDto> register(@RequestBody UserBuilderDto requestDto) {
         return ResponseEntity.ok(userService.registerUser(requestDto));
@@ -38,8 +37,9 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteMember(@PathVariable(name = "id") Integer id) {
+    public ResponseEntity<Void> deleteMember(@PathVariable(name = "id") Integer id) {
         userService.removeUser(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
